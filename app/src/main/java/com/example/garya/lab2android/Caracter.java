@@ -5,7 +5,7 @@ import java.util.Comparator;
 public class Caracter {
 
     char caracter;
-    double probabilidad;
+    float probabilidad;
 
     public char getCaracter() {
         return caracter;
@@ -19,12 +19,12 @@ public class Caracter {
         return probabilidad;
     }
 
-    public void setProbabilidad(double probabilidad) {
+    public void setProbabilidad(float probabilidad) {
         this.probabilidad = probabilidad;
     }
 
 
-    public Caracter(char Caracter, double Probabilidad){
+    public Caracter(char Caracter, float Probabilidad){
         caracter = Caracter;
         probabilidad = Probabilidad;
     }

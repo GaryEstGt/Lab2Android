@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
             Uri uri = data.getData(); //obtener el uri content
             String[] texto = uri.getPath().split("/");
             textView.setText(texto[texto.length-1]);
+
+            Huffman huf = new Huffman();
+
+            try {
+                huf.GenerarTabla(this.getApplication(), uri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

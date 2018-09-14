@@ -3,8 +3,6 @@ package com.example.garya.lab2android;
 import android.app.Application;
 import android.net.Uri;
 
-import com.sun.xml.internal.fastinfoset.util.CharArray;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,19 +19,24 @@ public class Huffman {
     List<Nodo> padres = new LinkedList<>();
 
     public void GenerarTabla(Application application, Uri archivo) throws IOException {
-        Cadena = Lector.LeerArchivo(application, archivo).toCharArray();
+        //Cadena = Lector.LeerArchivo(application, archivo).toCharArray();
+
+        Cadena = "El pan de mi casa es particular ala gran diabla.".toCharArray();
 
         for (int i = 0; i < Cadena.length ; i++)
         {
             if (!CaracteresBuscados.contains(Cadena[i])) {
-                Double probabilidad = (double)(contarCaracter(Cadena[i])/ Cadena.length);
+                Float probabilidad = ((float)contarCaracter(Cadena[i])/(float)Cadena.length);
                 Caracter car = new Caracter(Cadena[i], probabilidad);
+                CaracteresBuscados.add(car.getCaracter());
                 tabla.add(car);
             }
             else{
                 continue;
             }
         }
+
+        GenerarArbol();
     }
 
     public void GenerarArbol(){
@@ -43,7 +46,7 @@ public class Huffman {
     public int contarCaracter (char x){
         int cantidad = 0;
 
-        for (int i = 0; i < Cadena.length; i++) {
+        for (int i = 0; i < (float)Cadena.length; i++) {
             if (x == Cadena[i]) {
                 cantidad++;
             }
