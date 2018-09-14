@@ -1,5 +1,6 @@
 package com.example.garya.lab2android;
 
+import android.app.Application;
 import android.net.Uri;
 
 import com.sun.xml.internal.fastinfoset.util.CharArray;
@@ -19,8 +20,8 @@ public class Huffman {
     List<Caracter> tabla = new LinkedList<>();
     List<Nodo> padres = new LinkedList<>();
 
-    public void GenerarTabla(Uri archivo) throws IOException {
-        Cadena = Lector.LeerArchivo(archivo).toCharArray();
+    public void GenerarTabla(Application application, Uri archivo) throws IOException {
+        Cadena = Lector.LeerArchivo(application, archivo).toCharArray();
 
         for (int i = 0; i < Cadena.length ; i++)
         {
