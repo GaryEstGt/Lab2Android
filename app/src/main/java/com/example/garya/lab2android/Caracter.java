@@ -15,7 +15,7 @@ public class Caracter {
         this.caracter = caracter;
     }
 
-    public double getProbabilidad() {
+    public float getProbabilidad() {
         return probabilidad;
     }
 

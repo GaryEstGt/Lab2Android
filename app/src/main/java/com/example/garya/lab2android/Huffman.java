@@ -2,6 +2,7 @@ package com.example.garya.lab2android;
 
 import android.app.Application;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -14,14 +15,18 @@ import java.util.List;
 public class Huffman {
 
     char[] Cadena;
-    List<Character> CaracteresBuscados = new LinkedList<>();
     List<Caracter> tabla = new LinkedList<>();
+    List<Nodo> tablaArbol = new LinkedList<>();
     List<Nodo> padres = new LinkedList<>();
 
-    public void GenerarTabla(Application application, Uri archivo) throws IOException {
+    public Huffman (Application application, Uri archivo)throws IOException{
         //Cadena = Lector.LeerArchivo(application, archivo).toCharArray();
+    }
 
-        Cadena = "El pan de mi casa es particular ala gran diabla.".toCharArray();
+    void GenerarTabla(Application application, Uri archivo) throws IOException {
+        List<Character> CaracteresBuscados = new LinkedList<>();
+
+        Cadena = "El pan de mi casa es particular.".toCharArray();
 
         for (int i = 0; i < Cadena.length ; i++)
         {
@@ -39,8 +44,38 @@ public class Huffman {
         GenerarArbol();
     }
 
-    public void GenerarArbol(){
+    void GenerarArbol(){
         Collections.sort(tabla, new CompareByProbabilidad());
+
+        for (Caracter car:tabla) {
+            Nodo nodo = new Nodo(car);
+            tablaArbol.add(nodo);
+        }
+
+        while(tablaArbol.size() > 1){
+            encontrarMenores();
+        }
+    }
+
+    void encontrarMenores(){
+        JuntarNodos(tablaArbol.get(0),tablaArbol.get(1));
+    }
+
+    void JuntarNodos(Nodo n1, Nodo n2){
+        float sumaProbabilidad = n1.getCaracter().getProbabilidad() + n2.getCaracter().getProbabilidad();
+        Nodo padre = new Nodo(new Caracter('\u0000', sumaProbabilidad));
+        padre.setHijoDerecho(n2);
+        padre.setHijoIzquierdo(n1);
+
+        n1.setPadre(padre);
+        n2.setPadre(padre);
+
+        tablaArbol.add(padre);
+        tablaArbol.remove(n1);
+        tablaArbol.remove(n2);
+
+        Collections.sort(tablaArbol, new CompareByCaracter());
+        padres.add(padre);
     }
 
     public int contarCaracter (char x){
