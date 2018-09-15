@@ -17,7 +17,7 @@ public class Huffman {
     char[] Cadena;
     List<Caracter> tabla = new LinkedList<>();
     List<Nodo> tablaArbol = new LinkedList<>();
-    List<Nodo> padres = new LinkedList<>();
+    //List<Nodo> padres = new LinkedList<>();
 
     public Huffman (Application application, Uri archivo)throws IOException{
         //Cadena = Lector.LeerArchivo(application, archivo).toCharArray();
@@ -75,7 +75,7 @@ public class Huffman {
         tablaArbol.remove(n2);
 
         Collections.sort(tablaArbol, new CompareByCaracter());
-        padres.add(padre);
+        //padres.add(padre);
     }
 
     public int contarCaracter (char x){
