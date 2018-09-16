@@ -100,8 +100,16 @@ public class Huffman {
             tablaDirecciones.add(raiz);
         return tabla;
     }
-    public  void Escribir(){
-
-    }
+        public String textoBinario(){
+        String texto="";
+            for(int x=0;x<Cadena.length;x++){
+                for (Nodo i: tablaDirecciones) {
+                    if (Cadena[x]==i.caracter.caracter){
+                        texto+=i.caracter.direccion;
+                    }
+                }
+            }
+            return texto;
+        }
 
 }
