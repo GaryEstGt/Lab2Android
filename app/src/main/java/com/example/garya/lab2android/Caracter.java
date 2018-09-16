@@ -6,6 +6,7 @@ public class Caracter {
 
     char caracter;
     float probabilidad;
+    String direccion;
 
     public char getCaracter() {
         return caracter;
@@ -24,9 +25,10 @@ public class Caracter {
     }
 
 
-    public Caracter(char Caracter, float Probabilidad){
+    public Caracter(char Caracter, float Probabilidad,String dir){
         caracter = Caracter;
         probabilidad = Probabilidad;
+        direccion=dir;
     }
 
 

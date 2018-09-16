@@ -17,6 +17,7 @@ public class Huffman {
     char[] Cadena;
     List<Caracter> tabla = new LinkedList<>();
     List<Nodo> tablaArbol = new LinkedList<>();
+    List<Nodo> tablaDirecciones = new LinkedList<>();
     //List<Nodo> padres = new LinkedList<>();
 
     public Huffman (Application application, Uri archivo)throws IOException{
@@ -32,7 +33,7 @@ public class Huffman {
         {
             if (!CaracteresBuscados.contains(Cadena[i])) {
                 Float probabilidad = ((float)contarCaracter(Cadena[i])/(float)Cadena.length);
-                Caracter car = new Caracter(Cadena[i], probabilidad);
+                Caracter car = new Caracter(Cadena[i], probabilidad,"");
                 CaracteresBuscados.add(car.getCaracter());
                 tabla.add(car);
             }
@@ -63,7 +64,7 @@ public class Huffman {
 
     void JuntarNodos(Nodo n1, Nodo n2){
         float sumaProbabilidad = n1.getCaracter().getProbabilidad() + n2.getCaracter().getProbabilidad();
-        Nodo padre = new Nodo(new Caracter('\u0000', sumaProbabilidad));
+        Nodo padre = new Nodo(new Caracter('\u0000', sumaProbabilidad,""));
         padre.setHijoDerecho(n2);
         padre.setHijoIzquierdo(n1);
 
@@ -89,4 +90,15 @@ public class Huffman {
 
         return cantidad;
     }
+    public List<Nodo> setDirecciones(String ubicacion,List<Nodo> tabla,Nodo raiz){
+        if(raiz.caracter.caracter==('\u0000')){
+            tabla=setDirecciones(ubicacion+"0",tabla,raiz.getHijoIzquierdo());
+            tabla=setDirecciones(ubicacion+"1",tabla,raiz.getHijoDerecho());
+        }
+        else
+            raiz.caracter.direccion=ubicacion;
+            tablaDirecciones.add(raiz);
+        return tabla;
+    }
+
 }
