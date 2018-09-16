@@ -100,5 +100,8 @@ public class Huffman {
             tablaDirecciones.add(raiz);
         return tabla;
     }
+    public  void Escribir(){
+
+    }
 
 }
