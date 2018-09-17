@@ -45,7 +45,12 @@ public class MainActivity extends AppCompatActivity {
             String[] texto = uri.getPath().split("/");
             textView.setText(texto[texto.length-1]);
 
-            Huffman huf = new Huffman();
+            Huffman huf = null;
+            try {
+                huf = new Huffman(this.getApplication(), uri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             try {
                 huf.GenerarTabla(this.getApplication(), uri);

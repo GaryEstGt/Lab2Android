@@ -18,7 +18,6 @@ public class Huffman {
     List<Caracter> tabla = new LinkedList<>();
     List<Nodo> tablaArbol = new LinkedList<>();
     List<Nodo> tablaDirecciones = new LinkedList<>();
-    //List<Nodo> padres = new LinkedList<>();
 
     public Huffman (Application application, Uri archivo)throws IOException{
         //Cadena = Lector.LeerArchivo(application, archivo).toCharArray();
@@ -27,7 +26,7 @@ public class Huffman {
     void GenerarTabla(Application application, Uri archivo) throws IOException {
         List<Character> CaracteresBuscados = new LinkedList<>();
 
-        Cadena = "El pan de mi casa es particular.".toCharArray();
+        Cadena = "El".toCharArray();
 
         for (int i = 0; i < Cadena.length ; i++)
         {
@@ -43,6 +42,8 @@ public class Huffman {
         }
 
         GenerarArbol();
+        setDirecciones("",tablaArbol.get(0));
+        String textobin = textoBinario();
     }
 
     void GenerarArbol(){
@@ -90,26 +91,29 @@ public class Huffman {
 
         return cantidad;
     }
-    public List<Nodo> setDirecciones(String ubicacion,List<Nodo> tabla,Nodo raiz){
-        if(raiz.caracter.caracter==('\u0000')){
-            tabla=setDirecciones(ubicacion+"0",tabla,raiz.getHijoIzquierdo());
-            tabla=setDirecciones(ubicacion+"1",tabla,raiz.getHijoDerecho());
+
+    public void setDirecciones(String ubicacion, Nodo raiz){
+        if(raiz.getCaracter().getCaracter()==('\u0000')){
+            setDirecciones(ubicacion+"0", raiz.getHijoIzquierdo());
+            setDirecciones(ubicacion+"1", raiz.getHijoDerecho());
         }
-        else
-            raiz.caracter.direccion=ubicacion;
+        else{
+            raiz.getCaracter().setDireccion(ubicacion);
             tablaDirecciones.add(raiz);
-        return tabla;
+        }
     }
-        public String textoBinario(){
+
+    public String textoBinario(){
         String texto="";
             for(int x=0;x<Cadena.length;x++){
                 for (Nodo i: tablaDirecciones) {
-                    if (Cadena[x]==i.caracter.caracter){
-                        texto+=i.caracter.direccion;
+                    if (Cadena[x]==i.getCaracter().getCaracter()){
+                        texto+=i.getCaracter().getDireccion();
+                        break;
                     }
                 }
             }
             return texto;
-        }
+    }
 
 }

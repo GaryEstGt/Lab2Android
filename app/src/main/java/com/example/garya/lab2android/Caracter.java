@@ -4,9 +4,17 @@ import java.util.Comparator;
 
 public class Caracter {
 
-    char caracter;
-    float probabilidad;
-    String direccion;
+    private char caracter;
+    private float probabilidad;
+    private String direccion;
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String dir) {
+        direccion = dir;
+    }
 
     public char getCaracter() {
         return caracter;

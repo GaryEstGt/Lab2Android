@@ -4,11 +4,10 @@ import java.util.Comparator;
 
 public class Nodo {
 
-    Nodo Padre;
-    Nodo HijoDerecho;
-    Nodo HijoIzquierdo;
-    Caracter caracter;
-    //float probabilidad;
+    private Nodo Padre;
+    private Nodo HijoDerecho;
+    private Nodo HijoIzquierdo;
+    private Caracter caracter;
 
     public Caracter getCaracter() {
         return caracter;
@@ -17,14 +16,6 @@ public class Nodo {
     public void setCaracter(Caracter car) {
         caracter = car;
     }
-
-    //public float getProbabilidad() {
-        //return probabilidad;
-    //}
-
-    //public void setProbabilidad(float p) {
-        //probabilidad = p;
-    //}
 
     public Nodo getPadre() {
         return Padre;
