@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -16,6 +19,13 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.textView)
     TextView textView;
+    @BindView(R.id.btnComprimir)
+    Button btnComprimir;
+    @BindView(R.id.btnDescomprimir)
+    Button btnDescomprimir;
+
+    Huffman huffman;
+    Uri uri;
 
 
     @Override
@@ -25,12 +35,33 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.btnElegir)
-    public void onViewClicked() {
-        int VALOR_RETORNO = 1;
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        startActivityForResult(Intent.createChooser(intent, "Choose File"), 0);
+    @OnClick({R.id.btnElegir,R.id.btnComprimir, R.id.btnDescomprimir})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btnElegir:
+                int VALOR_RETORNO = 1;
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/*");
+                startActivityForResult(Intent.createChooser(intent, "Choose File"), 0);
+                break;
+            case R.id.btnComprimir:
+                try {
+                    huffman = new Huffman(this.getApplication(), uri,true);
+                    huffman.ComprimirArchivo();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.btnDescomprimir:
+                /*try {
+                    huffman = new Huffman(this.getApplication(), uri,true);
+                    huffman.ComprimirArchivo(this.getApplication(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+                Toast.makeText(this.getApplicationContext(),"Descomprimir",Toast.LENGTH_LONG).show();
+                break;
+        }
     }
 
     @Override
@@ -41,22 +72,11 @@ public class MainActivity extends AppCompatActivity {
         }
         if ((resultCode == RESULT_OK) && (requestCode == 0)) {
             //Procesar el resultado
-            Uri uri = data.getData(); //obtener el uri content
+
+            uri = data.getData(); //obtener el uri content
             String[] texto = uri.getPath().split("/");
-            textView.setText(texto[texto.length-1]);
-
-            Huffman huf = null;
-            try {
-                huf = new Huffman(this.getApplication(), uri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                huf.GenerarTabla(this.getApplication(), uri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            textView.setText(texto[texto.length - 1]);
+            Toast.makeText(this.getApplicationContext(),"Archivo cargado con éxito",Toast.LENGTH_LONG).show();
         }
     }
 }
