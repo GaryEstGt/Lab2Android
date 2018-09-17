@@ -14,11 +14,14 @@ public class Huffman {
     List<Nodo> tablaArbol = new LinkedList<>();
     String textoBinario;
     String textoAscii;
+    Application application;
 
-    public Huffman (Application application, Uri archivo, boolean comprimir)throws IOException{
+    public Huffman (Application app, Uri archivo, boolean comprimir)throws IOException{
+        application = app;
         if (comprimir) {
             //Cadena = Lector.LeerArchivo(application, archivo);
             Cadena = "abvavbvcq";
+            ComprimirArchivo();
         }
         else{
 
@@ -31,6 +34,8 @@ public class Huffman {
         setDirecciones("",tablaArbol.get(0));
         textoBinario = CrearTextoBinario();
         textoAscii = TextoToAscii();
+        Escritor.Escribir(application,textoBinario,"ArchivoConTextoBinario.BIN");
+        Escritor.Escribir(application,textoBinario,"ArchivoCompreso.huf");
     }
 
     void GenerarTabla(){
@@ -116,7 +121,7 @@ public class Huffman {
                 }
             }
 
-        int cerosFaltantes = 8 - textoBinario.length() % 8;
+        int cerosFaltantes = 8 - texto.length() % 8;
 
         if (cerosFaltantes != 8) {
             for (int i = 0; i < cerosFaltantes; i++) {
