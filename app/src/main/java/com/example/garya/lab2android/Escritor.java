@@ -12,12 +12,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 public class Escritor {
-    public static void Escribir(Application application, String cadena, String nombreArchivo){
+    /*public static void Escribir(Application application, String cadena, String nombreArchivo){
         try {
             FileOutputStream file;
 
             File archivo = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/", nombreArchivo);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(newFileOutarchivo);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new ());
             outputStreamWriter.write(cadena);
             outputStreamWriter.close();
         } catch (FileNotFoundException e) {
@@ -25,6 +25,6 @@ public class Escritor {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 }
