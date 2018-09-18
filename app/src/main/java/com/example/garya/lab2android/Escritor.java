@@ -14,8 +14,10 @@ import java.io.OutputStreamWriter;
 public class Escritor {
     public static void Escribir(Application application, String cadena, String nombreArchivo){
         try {
-            //File archivo = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/", nombreArchivo);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput(nombreArchivo, Context.MODE_WORLD_READABLE));
+            FileOutputStream file;
+
+            File archivo = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/", nombreArchivo);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(newFileOutarchivo);
             outputStreamWriter.write(cadena);
             outputStreamWriter.close();
         } catch (FileNotFoundException e) {
