@@ -10,6 +10,8 @@ import java.util.List;
 public class Huffman {
 
     String Cadena;
+    String CadenaDescompresa;
+    String PathArchivo;
     String[] TablaCerosAscii = new String[3];
     List<Caracter> tabla = new LinkedList<>();
     List<Nodo> tablaArbol = new LinkedList<>();
@@ -23,22 +25,15 @@ public class Huffman {
         CerosExtra = 0;
         textoBinario = "";
         textoAscii = "";
+        CadenaDescompresa = "";
+        PathArchivo = archivo.getPath();
+        //Cadena = Lector.LeerArchivo(application, archivo);
 
         if (comprimir) {
-            //Cadena = Lector.LeerArchivo(application, archivo);
-            Cadena = "Habia una vez un pato muy grande enorme jaja si claro como no pendejo.";
+            Cadena = "Habia una vez estaba probando el programa intentando ser feliz pues si este funcionaba yo iba a sonreir hola, aveces me da miedo que la memoria del dispositivo no aguante tanta carga, pero se que mi codigo esta bueno y que el dispositivo puede con todo esto, aun asi estoy agregando mucho texto para probar y probar hasta que me canse de hacerlo adios, pause el programa solo para escribir mas texto, hay mucho por decir para poder probar este programa, pienso que es importante estar seguro de que el software funcione correctamente pues si no nos van a bajar puntos, muchos puntos lo cual me asusta, eso es cierto puede que sea mejor cambiarlo por la probabilidad de causar una sobrecarga en la memoria lo cual asusta a cualquiera pero como todos sabemos es algo normal de la vida ? si o no? tons k mami, quiero! o no? ¿o sisisis? ¡juan! piens en tu casa zaza ke ace voy a escribir un poquito mas , pues es como gacer una canion para estar seguros, me estoy equivocando demasiadoooo jjaj";
             ComprimirArchivo();
-            //Eliminar
-            tablaArbol.clear();
-            tabla.clear();
-            CerosExtra = 0;
-            textoBinario = "";
-            textoAscii = "";
-
-            Descomprimir();
         }
         else{
-            //Cadena = Lector.LeerArchivo(application, archivo);
             Descomprimir();
         }
     }
@@ -142,6 +137,9 @@ public class Huffman {
                 texto = "0" + texto;
             }
         }
+        else{
+            CerosExtra = 0;
+        }
 
         return texto;
     }
@@ -169,31 +167,35 @@ public class Huffman {
     }
 
     void GenerarArchivosCompresion(){
-        //Escritor.Escribir(application,textoBinario,"ArchivoConTextoBinario.BIN");
+        Escritor.Escribir(application,textoBinario,PathArchivo + "ArchivoConTextoBinario.BIN");
 
         String ArchivoHuff = "";
         for (int i = 0; i < tabla.size(); i++) {
-            ArchivoHuff += tabla.get(i).getCaracter() + "," + tabla.get(i).getProbabilidad();
+            ArchivoHuff += tabla.get(i).getCaracter() + "¬°" + tabla.get(i).getProbabilidad();
 
             if (i != tabla.size() - 1) {
-                ArchivoHuff += "°%°";
+                ArchivoHuff += "°~";
             }
         }
 
-        ArchivoHuff += "%%%";
+        ArchivoHuff += "~&";
         ArchivoHuff += CerosExtra;
-        ArchivoHuff += "%%%" + textoAscii;
-        //Escritor.Escribir(application, ArchivoHuff,"ArchivoCompreso.huf");
+        ArchivoHuff += "~&" + textoAscii;
+        Escritor.Escribir(application, ArchivoHuff,PathArchivo + "ArchivoCompreso.huf");
         Cadena = ArchivoHuff;
     }
 
     void Descomprimir(){
-        TablaCerosAscii = Cadena.split("%%%");
+        TablaCerosAscii = Cadena.split("~&");
         GenerarTablaDescompresion(TablaCerosAscii[0]);
         CerosExtra = Integer.parseInt(TablaCerosAscii[1]);
-        textoBinario = ExtraerBinariodeAscii(TablaCerosAscii[2]);
+        textoAscii = TablaCerosAscii[2];
+        textoBinario = ExtraerBinariodeAscii(textoAscii);
         GenerarArbol();
-
+        setDirecciones("", tablaArbol.get(0));
+        QuitarCeros(textoBinario);
+        CadenaDescompresa = ConvertirBinarioaAscii();
+        GenerarArchivosDescompresion();
     }
 
     public String ExtraerBinariodeAscii(String CodigoAscii){
@@ -206,18 +208,65 @@ public class Huffman {
                     asciiBinario = "0" + asciiBinario;
                 }
             }
-            textoBinario+=asciiBinario;
+            textoBinario += asciiBinario;
         }
         return textoBinario;
     }
 
     void GenerarTablaDescompresion(String cadenaTabla){
-        String[] caracteres = cadenaTabla.split("°%°");
+        String[] caracteres = cadenaTabla.split("°~");
 
         for (int i = 0; i < caracteres.length; i++) {
-            String[] caracter = caracteres[i].split(",");
+            String[] caracter = caracteres[i].split("¬°");
             tabla.add(new Caracter(caracter[0].charAt(0),Float.parseFloat(caracter[1]), ""));
         }
+    }
+
+    void QuitarCeros(String cadenaBinaria){
+        textoBinario = textoBinario.substring(CerosExtra);
+    }
+
+    String ConvertirBinarioaAscii(){
+        boolean hoja = false, fin = false;
+        Nodo nodo = tablaArbol.get(0);
+        int contador = 0;
+        String numeroBinario = "";
+        String cadena = "";
+
+        while(!fin){
+            while(!hoja){
+                if ((nodo.getHijoIzquierdo() != null)||(nodo.getHijoDerecho() != null)) {
+                    if(textoBinario.charAt(contador) == '0'){
+                        nodo = nodo.getHijoIzquierdo();
+                        numeroBinario += 0;
+                        contador++;
+                    }
+                    else{
+                        nodo = nodo.getHijoDerecho();
+                        numeroBinario += 1;
+                        contador++;
+                    }
+                }
+                else{
+                    cadena += nodo.getCaracter().getCaracter();
+                    nodo = tablaArbol.get(0);
+                    hoja = true;
+                    numeroBinario = "";
+                }
+            }
+            if (contador >= textoBinario.length() - 1) {
+                fin = true;
+            }
+            else{
+                hoja = false;
+            }
+        }
+
+        return cadena;
+    }
+
+    void GenerarArchivosDescompresion(){
+        Escritor.Escribir(application,CadenaDescompresa,"ArchivoDescompreso.txt");
     }
 
 }
