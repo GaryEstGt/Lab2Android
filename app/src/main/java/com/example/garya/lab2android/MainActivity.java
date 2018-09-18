@@ -25,7 +25,10 @@ public class MainActivity extends AppCompatActivity {
     Button btnDescomprimir;
 
     Huffman huffman;
+    Lector leer;
     Uri uri;
+    @BindView(R.id.txtMostrar)
+    TextView txtMostrar;
 
 
     @Override
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.btnElegir,R.id.btnComprimir, R.id.btnDescomprimir})
+    @OnClick({R.id.btnElegir, R.id.btnComprimir, R.id.btnDescomprimir})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnElegir:
@@ -43,10 +46,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
                 startActivityForResult(Intent.createChooser(intent, "Choose File"), 0);
+
+
                 break;
             case R.id.btnComprimir:
                 try {
-                    huffman = new Huffman(this.getApplication(), uri,true);
+                    huffman = new Huffman(this.getApplication(), uri, true);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -59,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }*/
-                Toast.makeText(this.getApplicationContext(),"Descomprimir",Toast.LENGTH_LONG).show();
+                Toast.makeText(this.getApplicationContext(), "Descomprimir", Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -76,7 +81,14 @@ public class MainActivity extends AppCompatActivity {
             uri = data.getData(); //obtener el uri content
             String[] texto = uri.getPath().split("/");
             textView.setText(texto[texto.length - 1]);
-            Toast.makeText(this.getApplicationContext(),"Archivo cargado con éxito",Toast.LENGTH_LONG).show();
+            leer = new Lector();
+            try {
+                String contenido = leer.LeerArchivo(this.getApplication(), uri);
+                txtMostrar.setText(contenido);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(this.getApplicationContext(), "Archivo cargado con éxito", Toast.LENGTH_LONG).show();
         }
     }
 }

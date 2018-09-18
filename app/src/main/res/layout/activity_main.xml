@@ -10,11 +10,13 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="archivo!"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.678"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
 
     <Button
         android:id="@+id/btnElegir"
@@ -29,16 +31,16 @@
         android:text="Open"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.66"
+        app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13" />
+        app:layout_constraintVertical_bias="0.124" />
 
     <Button
         android:id="@+id/btnComprimir"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="136dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="139dp"
         android:layout_marginEnd="256dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="256dp"
@@ -47,13 +49,15 @@
         android:text="Comprimir"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnElegir" />
+        app:layout_constraintTop_toBottomOf="@+id/btnElegir"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/btnDescomprimir"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginBottom="136dp"
         android:layout_marginEnd="66dp"
         android:layout_marginLeft="102dp"
@@ -63,9 +67,28 @@
         android:text="Descomprimir"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.019"
         app:layout_constraintStart_toEndOf="@+id/btnComprimir"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/txtMostrar"
+        android:layout_width="303dp"
+        android:layout_height="172dp"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginLeft="41dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="27dp"
+        android:clickable="false"
+        android:editable="false"
+        android:fadeScrollbars="true"
+        android:text="Texto"
+        app:layout_constraintBottom_toTopOf="@+id/btnComprimir"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnElegir" />
 
 </android.support.constraint.ConstraintLayout>

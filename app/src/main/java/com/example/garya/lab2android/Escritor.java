@@ -1,30 +1,27 @@
 package com.example.garya.lab2android;
 
 import android.app.Application;
-import android.content.Context;
-import android.os.Environment;
-import java.io.BufferedWriter;
-import java.io.File;
+
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class Escritor {
-    /*public static void Escribir(Application application, String cadena, String nombreArchivo){
+    public static void Escribir(Application application, String cadena, String directorio){
+        String nuevo=directorio.substring(0,directorio.indexOf("."));
+        nuevo=nuevo+".huff";
         try {
-            FileOutputStream file;
-
-            File archivo = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/", nombreArchivo);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new ());
-            outputStreamWriter.write(cadena);
-            outputStreamWriter.close();
+            FileWriter escritor=new FileWriter(nuevo);
+            PrintWriter print=new PrintWriter(escritor);
+            print.print(cadena);
+            print.close();
+            escritor.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
 }
