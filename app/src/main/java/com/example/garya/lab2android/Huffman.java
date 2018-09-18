@@ -182,7 +182,6 @@ public class Huffman {
         ArchivoHuff += CerosExtra;
         ArchivoHuff += "~&" + textoAscii;
         Escritor.Escribir(application, ArchivoHuff,PathArchivo + "ArchivoCompreso.huf");
-        Cadena = ArchivoHuff;
     }
 
     void Descomprimir(){
