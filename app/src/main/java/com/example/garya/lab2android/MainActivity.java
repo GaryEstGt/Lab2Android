@@ -26,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     Huffman huffman;
     Lector leer;
+    Escritor escribir;
     Uri uri;
+    String direccion;
     @BindView(R.id.txtMostrar)
     TextView txtMostrar;
 
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnComprimir:
                 try {
                     huffman = new Huffman(this.getApplication(), uri, true);
+                    escribir.Escribir(this.getApplication(),"Hol fui escrito o un intento de eso",direccion);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
             uri = data.getData(); //obtener el uri content
             String[] texto = uri.getPath().split("/");
+            direccion=uri.getPath();
             textView.setText(texto[texto.length - 1]);
             leer = new Lector();
             try {
