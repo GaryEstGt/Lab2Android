@@ -9,6 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -84,14 +89,29 @@ public class MainActivity extends AppCompatActivity {
             String[] texto = uri.getPath().split("/");
             direccion=uri.getPath();
             textView.setText(texto[texto.length - 1]);
-            leer = new Lector();
+          //  leer = new Lector();
            try {
-                String contenido = leer.LeerTexto(direccion,texto[texto.length-1]);
+                String contenido = LeoArchivo(uri);
                 txtMostrar.setText(contenido);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             Toast.makeText(this.getApplicationContext(), "Archivo cargado con éxito", Toast.LENGTH_LONG).show();
         }
+    }
+    String LeoArchivo(Uri archivo) throws IOException {
+        InputStream IS = getContentResolver().openInputStream(archivo);
+        BufferedReader BR = new BufferedReader(new InputStreamReader(IS));
+        StringBuilder SB = new StringBuilder();
+        String line = "";
+
+        while((line = BR.readLine()) != null)
+        {
+            SB.append(line);
+        }
+
+        IS.close();
+        BR.close();
+        return SB.toString();
     }
 }
