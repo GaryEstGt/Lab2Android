@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 
 public class Lector {
 
-    public  String LeerArchivo(Application application, Uri archivo) throws IOException {
+    public static String LeerArchivo(Application application, Uri archivo) throws IOException {
         InputStream IS = application.getContentResolver().openInputStream(archivo);
         BufferedReader BR = new BufferedReader(new InputStreamReader(IS));
         StringBuilder SB = new StringBuilder();

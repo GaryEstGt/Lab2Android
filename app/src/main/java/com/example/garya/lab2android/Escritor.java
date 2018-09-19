@@ -8,9 +8,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Escritor {
-    public static void Escribir(Application application, String cadena, String directorio){
-        String nuevo=directorio.substring(0,directorio.indexOf("."));
-        nuevo=nuevo+".huff";
+    public static void Escribir(Application application, String cadena, String directorio,int ver){
+        String nuevo;
+        if(ver==0){
+            nuevo=directorio.substring(0,directorio.indexOf("."));
+            nuevo=nuevo+"COMP.huff";
+        }
+        else if(ver==1){
+            nuevo=directorio.substring(0,directorio.indexOf("."));
+            nuevo=nuevo+"COMP.BIN";
+        }
+        else{
+            nuevo=directorio.substring(0,directorio.indexOf("."));
+            nuevo=nuevo+"DESCOMPRESS.txt";
+        }
+
         try {
             FileWriter escritor=new FileWriter(nuevo);
             PrintWriter print=new PrintWriter(escritor);

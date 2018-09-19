@@ -4,15 +4,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     Escritor escribir;
     Uri uri;
     String direccion;
+    String direccion2;
     @BindView(R.id.txtMostrar)
     TextView txtMostrar;
 
@@ -41,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        txtMostrar.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @OnClick({R.id.btnElegir, R.id.btnComprimir, R.id.btnDescomprimir})
@@ -55,23 +55,24 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.btnComprimir:
-               // try {
-                   // huffman = new Huffman(this.getApplication(), uri, true);
-                escribir=new Escritor();
-                    escribir.Escribir(this.getApplication(),"Hol fui escrito o un intento de eso",direccion);
+               try {
+                   Toast.makeText(this.getApplicationContext(), "Comprimiendo...", Toast.LENGTH_LONG).show();
+                    huffman = new Huffman(this.getApplication(), uri, true,direccion);
+                   Toast.makeText(this.getApplicationContext(), "Archivo comprimido en "+direccion, Toast.LENGTH_LONG).show();
 
-              //  } catch (IOException e) {
-              //      e.printStackTrace();
-              //  }
+
+              } catch (IOException e) {
+                 e.printStackTrace();
+               }
                 break;
             case R.id.btnDescomprimir:
-                /*try {
-                    huffman = new Huffman(this.getApplication(), uri,true);
-                    huffman.ComprimirArchivo(this.getApplication(), uri);
+                Toast.makeText(this.getApplicationContext(), "El Archivo esta siendo descomprimido", Toast.LENGTH_LONG).show();
+                try {
+                    huffman = new Huffman(this.getApplication(), uri,false,direccion);
                 } catch (IOException e) {
                     e.printStackTrace();
-                }*/
-                Toast.makeText(this.getApplicationContext(), "Descomprimir", Toast.LENGTH_LONG).show();
+                }
+                Toast.makeText(this.getApplicationContext(), "Descomprimido en "+direccion, Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -89,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
             String[] texto = uri.getPath().split("/");
             direccion=uri.getPath();
             textView.setText(texto[texto.length - 1]);
-          //  leer = new Lector();
+           leer = new Lector();
            try {
-                String contenido = LeoArchivo(uri);
+                String contenido = Lector.LeerArchivo(this.getApplication(),uri);
                 txtMostrar.setText(contenido);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this.getApplicationContext(), "Archivo cargado con éxito", Toast.LENGTH_LONG).show();
         }
     }
-    String LeoArchivo(Uri archivo) throws IOException {
+   /* String LeoArchivo(Uri archivo) throws IOException {
         InputStream IS = getContentResolver().openInputStream(archivo);
         BufferedReader BR = new BufferedReader(new InputStreamReader(IS));
         StringBuilder SB = new StringBuilder();
@@ -113,5 +114,5 @@ public class MainActivity extends AppCompatActivity {
         IS.close();
         BR.close();
         return SB.toString();
-    }
+    }*/
 }
