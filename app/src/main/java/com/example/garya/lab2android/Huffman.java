@@ -27,7 +27,7 @@ public class Huffman {
         textoAscii = "";
         CadenaDescompresa = "";
         PathArchivo = archivo.getPath();
-        Cadena = Lector.LeerArchivo(application, archivo);
+       // Cadena = Lector.LeerArchivo(application, archivo);
 
         if (comprimir) {
             /*Cadena = "Habia una vez estaba probando el programa intentando ser feliz pues si este funcionaba yo iba a sonreir hola, aveces me da miedo que la memoria del dispositivo no aguante tanta carga, pero se que mi codigo esta bueno y que el dispositivo puede con todo esto, aun asi estoy agregando mucho texto para probar y probar hasta que me canse de hacerlo adios, pause el programa solo para escribir mas texto, hay mucho por decir para poder probar este programa, pienso que es importante estar seguro de que el software funcione correctamente pues si no nos van a bajar puntos, muchos puntos lo cual me asusta, eso es cierto puede que sea mejor cambiarlo por la probabilidad de causar una sobrecarga en la memoria lo cual asusta a cualquiera pero como todos sabemos es algo normal de la vida ? si o no? tons k mami, quiero! o no? ¿o sisisis? ¡juan! piens en tu casa zaza ke ace voy a escribir un poquito mas , pues es como gacer una canion para estar seguros, me estoy equivocando demasiadoooo jjaj";*/

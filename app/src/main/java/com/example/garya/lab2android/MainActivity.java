@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -52,13 +50,14 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.btnComprimir:
-                try {
-                    huffman = new Huffman(this.getApplication(), uri, true);
+               // try {
+                   // huffman = new Huffman(this.getApplication(), uri, true);
+                escribir=new Escritor();
                     escribir.Escribir(this.getApplication(),"Hol fui escrito o un intento de eso",direccion);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+              //  } catch (IOException e) {
+              //      e.printStackTrace();
+              //  }
                 break;
             case R.id.btnDescomprimir:
                 /*try {
@@ -86,10 +85,10 @@ public class MainActivity extends AppCompatActivity {
             direccion=uri.getPath();
             textView.setText(texto[texto.length - 1]);
             leer = new Lector();
-            try {
-                String contenido = leer.LeerArchivo(this.getApplication(), uri);
+           try {
+                String contenido = leer.LeerTexto(direccion,texto[texto.length-1]);
                 txtMostrar.setText(contenido);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             Toast.makeText(this.getApplicationContext(), "Archivo cargado con éxito", Toast.LENGTH_LONG).show();

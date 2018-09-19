@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Escritor {
-    public void Escribir(Application application, String cadena, String directorio){
+    public static void Escribir(Application application, String cadena, String directorio){
         String nuevo=directorio.substring(0,directorio.indexOf("."));
         nuevo=nuevo+".huff";
         try {
