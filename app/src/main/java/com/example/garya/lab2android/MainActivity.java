@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Huffman huffman;
     Lector leer;
     Escritor escribir;
-    Uri uri;
+    Uri uri=null;
     String direccion;
     String direccion2;
     @BindView(R.id.txtMostrar)
@@ -55,24 +55,53 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.btnComprimir:
-               try {
-                   Toast.makeText(this.getApplicationContext(), "Comprimiendo...", Toast.LENGTH_LONG).show();
-                    huffman = new Huffman(this.getApplication(), uri, true,direccion);
-                   Toast.makeText(this.getApplicationContext(), "Archivo comprimido en "+direccion, Toast.LENGTH_LONG).show();
+                if(uri==null){
+                    Toast.makeText(this.getApplicationContext(), "Seleccione un archivo para comprimir", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    String[] prueb=uri.getPath().split("/");
+                    String prueb2;
+                    prueb2=prueb[prueb.length-1].substring(prueb[prueb.length-1].length()-4,prueb[prueb.length-1].length());
+                    if(prueb2.equals(".txt")){
+                        try {
+                            Toast.makeText(this.getApplicationContext(), "Comprimiendo...", Toast.LENGTH_LONG).show();
+                            huffman = new Huffman(this.getApplication(), uri, true,direccion);
+                            Toast.makeText(this.getApplicationContext(), "Archivo comprimido en "+direccion, Toast.LENGTH_LONG).show();
 
 
-              } catch (IOException e) {
-                 e.printStackTrace();
-               }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else{
+                        Toast.makeText(this.getApplicationContext(), "Seleccione archivo de texto para comprimir", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+
                 break;
             case R.id.btnDescomprimir:
-                Toast.makeText(this.getApplicationContext(), "El Archivo esta siendo descomprimido", Toast.LENGTH_LONG).show();
-                try {
-                    huffman = new Huffman(this.getApplication(), uri,false,direccion);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(uri==null){
+                    Toast.makeText(this.getApplicationContext(), "Seleccione un archivo para descomprimir", Toast.LENGTH_LONG).show();
+                }else{
+                    String[] prueb=uri.getPath().split("/");
+                    String prueb2;
+                    prueb2=prueb[prueb.length-1].substring(prueb[prueb.length-1].length()-5,prueb[prueb.length-1].length());
+                    if(prueb2.equals(".huff")){
+                        Toast.makeText(this.getApplicationContext(), "El Archivo esta siendo descomprimido", Toast.LENGTH_LONG).show();
+                        try {
+                            huffman = new Huffman(this.getApplication(), uri,false,direccion);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(this.getApplicationContext(), "Descomprimido en "+direccion, Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(this.getApplicationContext(), "Seleccion un archivo .huff para descomprimir", Toast.LENGTH_LONG).show();
+                    }
+
                 }
-                Toast.makeText(this.getApplicationContext(), "Descomprimido en "+direccion, Toast.LENGTH_LONG).show();
+
                 break;
         }
     }
