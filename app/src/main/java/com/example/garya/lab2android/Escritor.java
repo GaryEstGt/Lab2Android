@@ -9,18 +9,34 @@ import java.io.PrintWriter;
 
 public class Escritor {
     public static void Escribir(String cadena, int ver) {
-        String nuevo;
+        String nuevo = "";
         String raiz = Environment.getExternalStorageDirectory().toString();
 
-        if (ver == 0) {
-            raiz += "/CompresionHuffman/";
-            nuevo = raiz + "COMP.huf";
-        } else if (ver == 1) {
-            raiz += "/CompresionHuffman/";
-            nuevo = raiz + "COMP.BIN";
-        } else {
-            raiz += "/CompresionHuffman/";
-            nuevo = raiz + "DESCOMPRESS.txt";
+        switch (ver){
+            case 0:
+                raiz += "/CompresionHuffman/";
+                nuevo = raiz + "COMP.huf";
+                break;
+            case 1:
+                raiz += "/CompresionHuffman/";
+                nuevo = raiz + "COMP.BIN";
+                break;
+            case 2:
+                raiz += "/CompresionHuffman/";
+                nuevo = raiz + "DESCOMPRESS.txt";
+                break;
+            case 3:
+                raiz += "/CompresionLZW/";
+                nuevo = raiz + "COMP.lzw";
+                break;
+            case 4:
+                raiz += "/CompresionLZW/";
+                nuevo = raiz + "COMP.BIN";
+                break;
+            case 5:
+                raiz += "/CompresionLZW/";
+                nuevo = raiz + "DESCOMPRESS.txt";
+                break;
         }
 
         try {
