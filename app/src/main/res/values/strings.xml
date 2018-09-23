@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Lab2Android</string>
-    <string name="menu_settings">Configuracion</string>
+    <string name="menu_Huffman">Huffman</string>
+    <string name="menu_Compresiones">Mis Compresiones</string>
+    <string name="menu_LZW">LZW</string>
+    <string name="menu_Salir">Salir</string>
 </resources>

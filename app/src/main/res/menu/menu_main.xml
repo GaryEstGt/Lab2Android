@@ -3,7 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
         xmlns:app="http://schemas.android.com/apk/res-auto"&gt;
-    <item android:id="@+id/menu_settings"
-        android:title="@string/menu_settings" app:showAsAction="never">
+    <item android:id="@+id/menu_Huffman"
+        android:title="@string/menu_Huffman" app:showAsAction="never">
     </item>
+    <item android:id="@+id/menu_Compresiones"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/menu_Compresiones"
+        android:orderInCategory="2"
+        app:showAsAction="never"/>
+    <item android:id="@+id/menu_LZW"
+        android:title="@string/menu_LZW"
+        android:orderInCategory="3"
+        app:showAsAction="never"/>
+    <item android:id="@+id/Salir"
+        android:title="@string/menu_Salir"
+        android:orderInCategory="4"
+        app:showAsAction="never"/>
 </menu>
