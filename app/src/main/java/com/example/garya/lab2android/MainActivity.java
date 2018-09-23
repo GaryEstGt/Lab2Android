@@ -2,9 +2,9 @@ package com.example.garya.lab2android;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,14 +35,19 @@ public class MainActivity extends AppCompatActivity {
     TextView txtMostrar;
 
 
-    @Override
+   /* @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         txtMostrar.setMovementMethod(new ScrollingMovementMethod());
-    }
-
+    }*/
+   public boolean OnCreateOptionsMenu(Menu menu){
+       getMenuInflater().inflate(R.menu.menu_main,menu);
+       ButterKnife.bind(this);
+       txtMostrar.setMovementMethod(new ScrollingMovementMethod());
+       return true;
+   }
     @OnClick({R.id.btnElegir, R.id.btnComprimir, R.id.btnDescomprimir})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -129,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this.getApplicationContext(), "Archivo cargado con éxito", Toast.LENGTH_LONG).show();
         }
     }
+
    /* String LeoArchivo(Uri archivo) throws IOException {
         InputStream IS = getContentResolver().openInputStream(archivo);
         BufferedReader BR = new BufferedReader(new InputStreamReader(IS));

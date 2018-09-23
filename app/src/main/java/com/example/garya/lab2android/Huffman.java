@@ -169,7 +169,7 @@ public class Huffman {
     }
 
     void GenerarArchivosCompresion(){
-        Escritor.Escribir(application,textoBinario,PathArchivo + direct,1);
+        Escritor.Escribir(textoBinario,1);
 
         String ArchivoHuff = "";
         for (int i = 0; i < tabla.size(); i++) {
@@ -183,7 +183,7 @@ public class Huffman {
         ArchivoHuff += "~&";
         ArchivoHuff += CerosExtra;
         ArchivoHuff += "~&" + textoAscii;
-        Escritor.Escribir(application, ArchivoHuff,PathArchivo + direct,0);
+        Escritor.Escribir(ArchivoHuff,0);
     }
 
     void Descomprimir(){
@@ -267,7 +267,7 @@ public class Huffman {
     }
 
     void GenerarArchivosDescompresion(){
-        Escritor.Escribir(application,CadenaDescompresa,direct,2);
+        Escritor.Escribir(CadenaDescompresa,2);
     }
 
 }
