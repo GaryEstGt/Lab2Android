@@ -18,7 +18,7 @@ public class LZW {
 
         if(comprimir){
             GenerarTablaInicial(Cadena);
-          LZWCompresion(0,Cadena);
+            LZWCompresion(0,Cadena);
         }
         else{
 

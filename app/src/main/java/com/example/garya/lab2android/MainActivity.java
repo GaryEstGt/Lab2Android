@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+
                 break;
             case R.id.btnDescomprimir:
                 if(uri==null){
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                     String[] prueb=uri.getPath().split("/");
                     String prueb2;
                     prueb2=prueb[prueb.length-1].substring(prueb[prueb.length-1].length()-5,prueb[prueb.length-1].length());
-                    if(prueb2.equals(".huff")){
+                    if(prueb2.equals(".huf")){
                         Toast.makeText(this.getApplicationContext(), "El Archivo esta siendo descomprimido", Toast.LENGTH_LONG).show();
                         try {
                             huffman = new Huffman(this.getApplication(), uri,false,direccion);
