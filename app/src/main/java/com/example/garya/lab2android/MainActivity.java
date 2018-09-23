@@ -2,9 +2,11 @@ package com.example.garya.lab2android;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,24 +37,51 @@ public class MainActivity extends AppCompatActivity {
     TextView txtMostrar;
 
 
-   /* @Override
+   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         txtMostrar.setMovementMethod(new ScrollingMovementMethod());
-    }*/
-   public boolean OnCreateOptionsMenu(Menu menu){
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
        getMenuInflater().inflate(R.menu.menu_main,menu);
-       ButterKnife.bind(this);
-       txtMostrar.setMovementMethod(new ScrollingMovementMethod());
-       return true;
-   }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_Huffman:
+
+                Toast.makeText(this.getApplicationContext(), "Ya esta en Compresion Huffman", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.menu_Compresiones:
+                Intent intentCompresiones = new Intent(MainActivity.this, compresiones.class);
+                startActivity(intentCompresiones);
+                return true;
+            case R.id.menu_LZW:
+                Intent intentLZW = new Intent(MainActivity.this, compresionlzw.class);
+                startActivity(intentLZW);
+                return true;
+            case R.id.Salir:
+                finish();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @OnClick({R.id.btnElegir, R.id.btnComprimir, R.id.btnDescomprimir})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnElegir:
-                int VALOR_RETORNO = 1;
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
                 startActivityForResult(Intent.createChooser(intent, "Choose File"), 0);
