@@ -2,7 +2,6 @@ package com.example.garya.lab2android;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
@@ -36,20 +35,19 @@ public class MainActivity extends AppCompatActivity {
     TextView txtMostrar;
 
 
-   @Override
+   /* @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         txtMostrar.setMovementMethod(new ScrollingMovementMethod());
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
+    }*/
+   public boolean OnCreateOptionsMenu(Menu menu){
+       getMenuInflater().inflate(R.menu.menu_main,menu);
+       ButterKnife.bind(this);
+       txtMostrar.setMovementMethod(new ScrollingMovementMethod());
+       return true;
+   }
     @OnClick({R.id.btnElegir, R.id.btnComprimir, R.id.btnDescomprimir})
     public void onViewClicked(View view) {
         switch (view.getId()) {
