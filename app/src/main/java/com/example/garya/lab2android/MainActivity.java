@@ -2,6 +2,7 @@ package com.example.garya.lab2android;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
@@ -34,20 +35,21 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.txtMostrar)
     TextView txtMostrar;
 
-
-   /* @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         txtMostrar.setMovementMethod(new ScrollingMovementMethod());
-    }*/
-   public boolean OnCreateOptionsMenu(Menu menu){
+    }
+
+    public boolean OnCreateOptionsMenu(Menu menu){
        getMenuInflater().inflate(R.menu.menu_main,menu);
        ButterKnife.bind(this);
        txtMostrar.setMovementMethod(new ScrollingMovementMethod());
        return true;
-   }
+    }
+
     @OnClick({R.id.btnElegir, R.id.btnComprimir, R.id.btnDescomprimir})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this.getApplicationContext(), "Descomprimido en "+direccion, Toast.LENGTH_LONG).show();
                     }
                     else{
-                        Toast.makeText(this.getApplicationContext(), "Seleccion un archivo .huff para descomprimir", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this.getApplicationContext(), "Seleccion un archivo .huf para descomprimir", Toast.LENGTH_LONG).show();
                     }
 
                 }
