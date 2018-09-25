@@ -9,37 +9,49 @@ import java.util.List;
 
 public class LZW {
     List<String> tabla = new LinkedList<>();
+    List<String> tablaInicial = new LinkedList<>();
     String Cadena;
     String textoCodificado;
+    String textoDecodificado;
+    String[] tablaAscii = new String[2];
 
-    public LZW (Application app, Uri archivo, boolean comprimir)throws IOException {
+    LZW (Application app, Uri archivo)throws IOException {
         Cadena = Lector.LeerArchivo(app, archivo);
         textoCodificado = "";
+        textoDecodificado = "";
+    }
 
-        if(comprimir){
+    public boolean Comprimir(){
+        try{
             GenerarTablaInicial(Cadena);
             LZWCompresion(0,Cadena);
-        }
-        else{
 
+            if(!GenerarArchivosCompresion()){
+                return false;
+            }
+
+            return true;
+        }catch(Exception e){
+            return false;
         }
     }
 
-    void GenerarTablaInicial(String texto){
+    private void GenerarTablaInicial(String texto){
         for (int i = 0; i < texto.length(); i++) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(texto.charAt(i));
 
-            if(tabla.contains(stringBuilder.toString())){
+            if(tablaInicial.contains(stringBuilder.toString())){
                 continue;
             }
             else{
+                tablaInicial.add(stringBuilder.toString());
                 tabla.add(stringBuilder.toString());
             }
         }
     }
 
-    void LZWCompresion (int n, String texto)
+    private void LZWCompresion (int n, String texto)
     {
         if(n < (texto.length())){
             StringBuilder stringBuilder = new StringBuilder();
@@ -95,6 +107,90 @@ public class LZW {
                     LZWCompresion(n+1, texto);
                 }
             }
+        }
+    }
+
+    private boolean GenerarArchivosCompresion(){
+        String ArchivoLZW = "";
+        for (int i = 0; i < tablaInicial.size(); i++) {
+            ArchivoLZW += tablaInicial.get(i);
+
+            if (i != tablaInicial.size() - 1) {
+                ArchivoLZW += "°~";
+            }
+        }
+
+        ArchivoLZW += "~&" + textoCodificado;
+
+        if(Escritor.Escribir(ArchivoLZW,3)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean Descomprimir(){
+        try{
+            tablaAscii = Cadena.split("~&");
+            LeerTablaInicial(tablaAscii[0]);
+            DescompresionLZW(tablaAscii[1]);
+
+            if(!GenerarArchivosDescompresion()){
+                return false;
+            }
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    private void LeerTablaInicial(String cadenaTabla){
+        String[] caracteres = cadenaTabla.split("°~");
+
+        for (int i = 0; i < caracteres.length; i++) {
+            tablaInicial.add(caracteres[i]);
+            tabla.add(caracteres[i]);
+        }
+    }
+
+    private void DescompresionLZW(String cadenaAscii){
+        StringBuilder stringBuilder = new StringBuilder();
+        String anterior = "";
+        String actual = "";
+
+        for (int i = 0; i < cadenaAscii.length(); i++) {
+            if(i == 0){
+                stringBuilder.append(cadenaAscii.charAt(i));
+                int indice = Integer.parseInt(stringBuilder.toString());
+                actual = tabla.get(indice);
+                stringBuilder.delete(0,stringBuilder.length());
+
+                textoDecodificado+=actual;
+            }
+            else{
+                stringBuilder.append(cadenaAscii.charAt(i - 1));
+                int indice = Integer.parseInt(stringBuilder.toString());
+                anterior = tabla.get(indice);
+                stringBuilder.delete(0,stringBuilder.length());
+
+                stringBuilder.append(cadenaAscii.charAt(i));
+                indice = Integer.parseInt(stringBuilder.toString());
+                actual = tabla.get(indice);
+                stringBuilder.delete(0,stringBuilder.length());
+
+                textoDecodificado+=actual;
+                tabla.add(anterior + actual.charAt(0));
+            }
+        }
+    }
+
+    private boolean GenerarArchivosDescompresion(){
+        if(Escritor.Escribir(textoDecodificado,4)){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 }

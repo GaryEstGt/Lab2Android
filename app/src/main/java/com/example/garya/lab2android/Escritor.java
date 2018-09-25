@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Escritor {
-    public static void Escribir(String cadena, int ver) {
+
+    public static boolean Escribir(String cadena, int ver) {
+        try {
         String nuevo = "";
         String raiz = Environment.getExternalStorageDirectory().toString();
 
@@ -31,15 +33,11 @@ public class Escritor {
                 break;
             case 4:
                 raiz += "/CompresionLZW/";
-                nuevo = raiz + "COMP.BIN";
-                break;
-            case 5:
-                raiz += "/CompresionLZW/";
                 nuevo = raiz + "DESCOMPRESS.txt";
                 break;
+                default:
+                    return false;
         }
-
-        try {
 
             File directorio = new File(raiz);
 
@@ -59,10 +57,11 @@ public class Escritor {
             PrintWriter print = new PrintWriter(archivo);
             print.print(cadena);
             print.close();
+            return true;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            return false;
         } catch (IOException e) {
-            e.printStackTrace();
+            return false;
         }
 
     }

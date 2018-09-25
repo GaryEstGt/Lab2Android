@@ -3,6 +3,7 @@ package com.example.garya.lab2android;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
@@ -27,15 +28,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btnDescomprimir)
     Button btnDescomprimir;
 
-    Huffman huffman;
-    Lector leer;
-    Escritor escribir;
     Uri uri=null;
-    String direccion;
-    String direccion2;
     @BindView(R.id.txtMostrar)
     TextView txtMostrar;
-
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_Huffman:
-
                 Toast.makeText(this.getApplicationContext(), "Ya esta en Compresion Huffman", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.menu_Compresiones:
@@ -85,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
                 startActivityForResult(Intent.createChooser(intent, "Choose File"), 0);
-
-
                 break;
             case R.id.btnComprimir:
                 if(uri==null){
@@ -99,21 +91,21 @@ public class MainActivity extends AppCompatActivity {
                     if(prueb2.equals(".txt")){
                         try {
                             Toast.makeText(this.getApplicationContext(), "Comprimiendo...", Toast.LENGTH_LONG).show();
-                            huffman = new Huffman(this.getApplication(), uri, true,direccion);
-                            Toast.makeText(this.getApplicationContext(), "Archivo comprimido en "+direccion, Toast.LENGTH_LONG).show();
-
-
+                            Huffman huffman = new Huffman(this.getApplication(), uri);
+                            if(huffman.ComprimirArchivo()){
+                                Toast.makeText(this.getApplicationContext(), "Archivo comprimido en " + Environment.getExternalStorageDirectory().toString() + "/CompresionHuffman/", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(this.getApplicationContext(), "Error al descomprimir el archivo", Toast.LENGTH_LONG).show();
+                            }
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Toast.makeText(this.getApplicationContext(), "Error al descomprimir el archivo", Toast.LENGTH_LONG).show();
                         }
                     }
                     else{
                         Toast.makeText(this.getApplicationContext(), "Seleccione archivo de texto para comprimir", Toast.LENGTH_LONG).show();
                     }
-
                 }
-
-
                 break;
             case R.id.btnDescomprimir:
                 if(uri==null){
@@ -125,24 +117,28 @@ public class MainActivity extends AppCompatActivity {
                     if(prueb2.equals(".huf")){
                         Toast.makeText(this.getApplicationContext(), "El Archivo esta siendo descomprimido", Toast.LENGTH_LONG).show();
                         try {
-                            huffman = new Huffman(this.getApplication(), uri,false,direccion);
+                            Huffman huffman = new Huffman(this.getApplication(), uri);
+                            if(huffman.Descomprimir()){
+                                Toast.makeText(this.getApplicationContext(), "Descomprimido en " + Environment.getExternalStorageDirectory().toString() + "/CompresionHuffman/", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(this.getApplicationContext(), "Error al descomprimir el archivo", Toast.LENGTH_LONG).show();
+                            }
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Toast.makeText(this.getApplicationContext(), "Error al descomprimir el archivo", Toast.LENGTH_LONG).show();
                         }
-                        Toast.makeText(this.getApplicationContext(), "Descomprimido en "+direccion, Toast.LENGTH_LONG).show();
                     }
                     else{
-                        Toast.makeText(this.getApplicationContext(), "Seleccion un archivo .huff para descomprimir", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this.getApplicationContext(), "Seleccion un archivo .huf para descomprimir", Toast.LENGTH_LONG).show();
                     }
-
                 }
-
                 break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_CANCELED) {
             //Cancelado por el usuario
@@ -152,32 +148,13 @@ public class MainActivity extends AppCompatActivity {
 
             uri = data.getData(); //obtener el uri content
             String[] texto = uri.getPath().split("/");
-            direccion=uri.getPath();
             textView.setText(texto[texto.length - 1]);
-           leer = new Lector();
-           try {
-                String contenido = Lector.LeerArchivo(this.getApplication(),uri);
-                txtMostrar.setText(contenido);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            String contenido = Lector.LeerArchivo(this.getApplication(),uri);
+            txtMostrar.setText(contenido);
             Toast.makeText(this.getApplicationContext(), "Archivo cargado con éxito", Toast.LENGTH_LONG).show();
         }
-    }
-
-   /* String LeoArchivo(Uri archivo) throws IOException {
-        InputStream IS = getContentResolver().openInputStream(archivo);
-        BufferedReader BR = new BufferedReader(new InputStreamReader(IS));
-        StringBuilder SB = new StringBuilder();
-        String line = "";
-
-        while((line = BR.readLine()) != null)
-        {
-            SB.append(line);
+        } catch (Exception e) {
+            Toast.makeText(this.getApplicationContext(), "Error al cargar el archivo", Toast.LENGTH_LONG).show();
         }
-
-        IS.close();
-        BR.close();
-        return SB.toString();
-    }*/
+    }
 }

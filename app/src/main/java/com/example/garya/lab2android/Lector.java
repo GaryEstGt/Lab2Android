@@ -18,7 +18,9 @@ public class Lector {
 
         while((line = BR.readLine()) != null)
         {
-            SB.append(line);
+            for (int i = 0; i < line.length(); i++) {
+                SB.append(line.charAt(i));
+            }
         }
 
         IS.close();
