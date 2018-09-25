@@ -10,21 +10,28 @@ import java.util.List;
 public class LZW {
     List<String> tabla = new LinkedList<>();
     List<String> tablaInicial = new LinkedList<>();
+    List<String> tablaNumeros = new LinkedList<>();
     String Cadena;
     String textoCodificado;
+    String textoBinario;
     String textoDecodificado;
     String[] tablaAscii = new String[2];
 
     LZW (Application app, Uri archivo)throws IOException {
-        Cadena = Lector.LeerArchivo(app, archivo);
+        //Cadena = Lector.LeerArchivo(app, archivo);
+        Cadena = "wabbawabba";
         textoCodificado = "";
         textoDecodificado = "";
+        textoBinario = "";
     }
 
     public boolean Comprimir(){
         try{
             GenerarTablaInicial(Cadena);
             LZWCompresion(0,Cadena);
+            CompletarBinarios();
+            BinarioAscii();
+            GenerarBinarioCompleto();
 
             if(!GenerarArchivosCompresion()){
                 return false;
@@ -59,7 +66,7 @@ public class LZW {
             if(n == texto.length() - 1){
                 stringBuilder.append(texto.charAt(n));
                 String s = stringBuilder.toString();
-                textoCodificado+=(char)tabla.indexOf(s);
+                tablaNumeros.add(Integer.toBinaryString(tabla.indexOf(s)));
             }
             else{
                 stringBuilder.append(texto.charAt(n));
@@ -75,7 +82,7 @@ public class LZW {
                 if (!tabla.contains(s + siguiente))
                 {
                     tabla.add(s+siguiente);
-                    textoCodificado+=(char)tabla.indexOf(s);
+                    tablaNumeros.add(Integer.toBinaryString(tabla.indexOf(s)));
 
                     LZWCompresion(n+1, texto);
                 }
@@ -102,9 +109,57 @@ public class LZW {
                         tabla.add(s+siguiente);
                     }
 
-                    textoCodificado+=(char)tabla.indexOf(s);
+                    tablaNumeros.add(Integer.toBinaryString(tabla.indexOf(s)));
 
                     LZWCompresion(n+1, texto);
+                }
+            }
+        }
+    }
+
+    private void CompletarBinarios(){
+        String numeroMaximo = Integer.toBinaryString(tabla.size() - 1);
+
+        for (int i = 0; i < tablaNumeros.size(); i++) {
+            int cerosFaltantes = numeroMaximo.length() - tablaNumeros.get(i).length() % numeroMaximo.length();
+
+            if(cerosFaltantes != 8){
+                for (int j = 0; i < cerosFaltantes; j++) {
+                    tablaNumeros.set(i,"0" + tablaNumeros.get(i));
+                }
+            }
+        }
+    }
+
+    private void GenerarBinarioCompleto(){
+        for (String numero:tablaNumeros) {
+            textoBinario+=numero;
+        }
+    }
+
+
+    private void BinarioAscii(){
+        int contador = 0;
+        String ascii = "";
+        int numero = 0;
+
+        int cerosFaltantes = 8 - textoBinario.length()%8;
+
+        if(cerosFaltantes != 8){
+            for (int i = 0; i < cerosFaltantes; i++) {
+                textoBinario = "0" + textoBinario;
+            }
+        }
+
+        for (int i = 0; i < textoBinario.length(); i++) {
+            contador++;
+            if (contador <= 8) {
+                ascii = ascii + textoBinario.charAt(i);
+                if (contador == 8){
+                    numero = Integer.parseInt(ascii,2);
+                    textoCodificado += (char)Integer.valueOf(numero).intValue();
+                    contador = 0;
+                    ascii = "";
                 }
             }
         }
@@ -155,29 +210,23 @@ public class LZW {
     }
 
     private void DescompresionLZW(String cadenaAscii){
-        StringBuilder stringBuilder = new StringBuilder();
         String anterior = "";
         String actual = "";
 
         for (int i = 0; i < cadenaAscii.length(); i++) {
             if(i == 0){
-                stringBuilder.append(cadenaAscii.charAt(i));
-                int indice = Integer.parseInt(stringBuilder.toString());
-                actual = tabla.get(indice);
-                stringBuilder.delete(0,stringBuilder.length());
+                String numeroBinario = Integer.toBinaryString(cadenaAscii.charAt(i));
+                actual = tabla.get(Integer.parseInt(numeroBinario,2));
 
                 textoDecodificado+=actual;
             }
             else{
-                stringBuilder.append(cadenaAscii.charAt(i - 1));
-                int indice = Integer.parseInt(stringBuilder.toString());
-                anterior = tabla.get(indice);
-                stringBuilder.delete(0,stringBuilder.length());
 
-                stringBuilder.append(cadenaAscii.charAt(i));
-                indice = Integer.parseInt(stringBuilder.toString());
-                actual = tabla.get(indice);
-                stringBuilder.delete(0,stringBuilder.length());
+                String numeroBinario = Integer.toBinaryString(cadenaAscii.charAt(i - 1));
+                anterior = tabla.get(Integer.parseInt(numeroBinario,2));
+
+                numeroBinario = Integer.toBinaryString(cadenaAscii.charAt(i));
+                actual = tabla.get(Integer.parseInt(numeroBinario,2));
 
                 textoDecodificado+=actual;
                 tabla.add(anterior + actual.charAt(0));
