@@ -17,12 +17,12 @@ public class MisCompresiones {
 
     @Override
     public String toString() {
-        return "Compresion " +
-                "nombreArchivo= '" + nombreArchivo + '\'' +
-                " ruta= '" + ruta + '\'' +
-                " razonCompresion= " + razonCompresion +
-                " factorCompresion= " + factorCompresion +
-                " porcentajeReduccion= " + porcentajeReduccion;
+        return
+                "Nombre Archivo= " + nombreArchivo + "\n" +
+                " Ruta= " + ruta + "\n" +
+                " Razon Compresion= " + razonCompresion +"\n"+
+                " Factor Compresion= " + factorCompresion +"\n"+
+                " Porcentaje Reduccion= " + porcentajeReduccion+"%";
     }
     public String toStringArchivo(){
         return "{"+nombreArchivo+","+ruta+","+razonCompresion+","+factorCompresion+","+porcentajeReduccion+"}";
@@ -48,24 +48,24 @@ public class MisCompresiones {
         return razonCompresion;
     }
 
-    public void setRazonCompresion(Double razonCompresion) {
-        this.razonCompresion = razonCompresion;
+    public void setRazonCompresion(Double tamañoOriginal,Double tamañoComprimido) {
+        this.razonCompresion = tamañoComprimido/tamañoOriginal;
     }
 
     public Double getFactorCompresion() {
         return factorCompresion;
     }
 
-    public void setFactorCompresion(Double factorCompresion) {
-        this.factorCompresion = factorCompresion;
+    public void setFactorCompresion(Double tamañoOriginal,Double tamañoComprimido) {
+        this.factorCompresion = tamañoOriginal/tamañoComprimido;
     }
 
     public Double getPorcentajeReduccion() {
         return porcentajeReduccion;
     }
 
-    public void setPorcentajeReduccion(Double porcentajeReduccion) {
-        this.porcentajeReduccion = porcentajeReduccion;
+    public void setPorcentajeReduccion() {
+        this.porcentajeReduccion = razonCompresion*100;
     }
 
 

@@ -57,6 +57,9 @@ public class Escritor {
             PrintWriter print = new PrintWriter(archivo);
             print.print(cadena);
             print.close();
+            if(ver==0 || ver==3){
+                setMisCompresiones(nombre,raiz,Data.getInstance().tamañoOriginal, Double.valueOf(archivo.length()));
+            }
             return true;
         } catch (FileNotFoundException e) {
             return false;
@@ -64,6 +67,13 @@ public class Escritor {
             return false;
         }
 
+    }
+    public static void setMisCompresiones(String nombreArchivo,String ruta,Double tamañoOriginal,Double tamañoComprimido){
+        MisCompresiones compresion =new MisCompresiones(nombreArchivo,ruta,0.0,0.0,0.0);
+        compresion.setFactorCompresion(tamañoOriginal,tamañoComprimido);
+        compresion.setRazonCompresion(tamañoOriginal,tamañoComprimido);
+        compresion.setPorcentajeReduccion();
+        Data.getInstance().listaCompresiones.add(compresion);
     }
 
 }

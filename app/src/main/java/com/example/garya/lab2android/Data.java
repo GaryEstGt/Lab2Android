@@ -19,5 +19,6 @@ public class Data {
 
         return instanciaUnica;
     }
+    public Double tamañoOriginal;
     public List<MisCompresiones> listaCompresiones=new LinkedList<>();
 }
