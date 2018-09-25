@@ -16,6 +16,8 @@ public class LZW {
     String textoBinario;
     String textoDecodificado;
     String[] tablaAscii = new String[2];
+    Uri datosArchivo;
+    String nombreArchivo="";
 
     LZW (Application app, Uri archivo)throws IOException {
         //Cadena = Lector.LeerArchivo(app, archivo);
@@ -23,6 +25,12 @@ public class LZW {
         textoCodificado = "";
         textoDecodificado = "";
         textoBinario = "";
+        datosArchivo=archivo;
+    }
+    public void obtenerNombreArchivo(){
+        String[] path=datosArchivo.getPath().split("/");
+        String[] nombre=path[path.length-1].split("\\.");
+        nombreArchivo=nombre[0];
     }
 
     public boolean Comprimir(){
@@ -176,8 +184,8 @@ public class LZW {
         }
 
         ArchivoLZW += "~&" + textoCodificado;
-
-        if(Escritor.Escribir(ArchivoLZW,3)){
+    obtenerNombreArchivo();
+        if(Escritor.Escribir(ArchivoLZW,3,nombreArchivo)){
             return true;
         }
         else{
@@ -235,7 +243,8 @@ public class LZW {
     }
 
     private boolean GenerarArchivosDescompresion(){
-        if(Escritor.Escribir(textoDecodificado,4)){
+        obtenerNombreArchivo();
+        if(Escritor.Escribir(textoDecodificado,4,nombreArchivo)){
             return true;
         }
         else{

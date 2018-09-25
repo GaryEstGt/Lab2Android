@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 
 public class Escritor {
 
-    public static boolean Escribir(String cadena, int ver) {
+    public static boolean Escribir(String cadena, int ver,String nombre) {
         try {
         String nuevo = "";
         String raiz = Environment.getExternalStorageDirectory().toString();
@@ -17,23 +17,23 @@ public class Escritor {
         switch (ver){
             case 0:
                 raiz += "/CompresionHuffman/";
-                nuevo = raiz + "COMP.huf";
+                nuevo = raiz +nombre+ "COMP.huf";
                 break;
             case 1:
                 raiz += "/CompresionHuffman/";
-                nuevo = raiz + "COMP.BIN";
+                nuevo = raiz + nombre+"COMP.BIN";
                 break;
             case 2:
                 raiz += "/CompresionHuffman/";
-                nuevo = raiz + "DESCOMPRESS.txt";
+                nuevo = raiz + nombre+"DESCOMPRESS.txt";
                 break;
             case 3:
                 raiz += "/CompresionLZW/";
-                nuevo = raiz + "COMP.lzw";
+                nuevo = raiz + nombre+"COMP.lzw";
                 break;
             case 4:
                 raiz += "/CompresionLZW/";
-                nuevo = raiz + "DESCOMPRESS.txt";
+                nuevo = raiz +nombre+ "DESCOMPRESS.txt";
                 break;
                 default:
                     return false;

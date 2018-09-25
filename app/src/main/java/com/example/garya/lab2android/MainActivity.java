@@ -96,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(this.getApplicationContext(), "Archivo comprimido en " + Environment.getExternalStorageDirectory().toString() + "/CompresionHuffman/", Toast.LENGTH_LONG).show();
                             }
                             else{
-                                Toast.makeText(this.getApplicationContext(), "Error al descomprimir el archivo", Toast.LENGTH_LONG).show();
+                                Toast.makeText(this.getApplicationContext(), "Error al comprimir el archivo", Toast.LENGTH_LONG).show();
                             }
                         } catch (IOException e) {
-                            Toast.makeText(this.getApplicationContext(), "Error al descomprimir el archivo", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this.getApplicationContext(), "Error al comprimir el archivo", Toast.LENGTH_LONG).show();
                         }
                     }
                     else{

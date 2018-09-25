@@ -18,6 +18,8 @@ public class Huffman {
     String textoAscii;
     Application application;
     int CerosExtra;
+    private String nombreArchivo="";
+   private Uri datosArchivo;
 
     Huffman (Application app, Uri archivo)throws IOException{
         application = app;
@@ -26,6 +28,12 @@ public class Huffman {
         textoAscii = "";
         CadenaDescompresa = "";
         Cadena = Lector.LeerArchivo(application, archivo);
+        datosArchivo=archivo;
+    }
+    public void obtenerNombreArchivo(){
+        String[] path=datosArchivo.getPath().split("/");
+        String[] nombre=path[path.length-1].split("\\.");
+        nombreArchivo=nombre[0];
     }
 
     public boolean ComprimirArchivo(){
@@ -165,7 +173,8 @@ public class Huffman {
     }
 
     private boolean GenerarArchivosCompresion(){
-        if(Escritor.Escribir(textoBinario,1)){
+        obtenerNombreArchivo();
+        if(Escritor.Escribir(textoBinario,1,nombreArchivo)){
             String ArchivoHuff = "";
             for (int i = 0; i < tabla.size(); i++) {
                 ArchivoHuff += tabla.get(i).getCaracter() + "¬°" + tabla.get(i).getProbabilidad();
@@ -178,7 +187,7 @@ public class Huffman {
             ArchivoHuff += "~&";
             ArchivoHuff += CerosExtra;
             ArchivoHuff += "~&" + textoAscii;
-            if(Escritor.Escribir(ArchivoHuff,0)){
+            if(Escritor.Escribir(ArchivoHuff,0,nombreArchivo)){
                 return true;
             }
             else{
@@ -280,7 +289,8 @@ public class Huffman {
     }
 
     private boolean GenerarArchivosDescompresion(){
-        if(Escritor.Escribir(CadenaDescompresa,2)){
+        obtenerNombreArchivo();
+        if(Escritor.Escribir(CadenaDescompresa,2,nombreArchivo)){
             return true;
         }
         else{
