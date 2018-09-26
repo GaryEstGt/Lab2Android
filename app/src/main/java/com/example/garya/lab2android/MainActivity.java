@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
 
 import butterknife.BindView;
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         txtMostrar.setMovementMethod(new ScrollingMovementMethod());
+        if(Data.getInstance().contadorLectura==0){
+            llenarLista();
+            Data.getInstance().contadorLectura++;
+        }
     }
 
     @Override
@@ -156,5 +161,20 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this.getApplicationContext(), "Error al cargar el archivo", Toast.LENGTH_LONG).show();
         }
+    }
+    public void llenarLista(){
+       String direccion=Environment.getExternalStorageDirectory().toString()+"/CompresionHuffman/";
+       File archivo=new File(direccion);
+       if(archivo.exists()){
+           String contenido=Lector.LeerMisCompresiones();
+           String[] Compresiones=contenido.split("}");
+           String[] datosCompresiones;
+           for (int x=0;x<Compresiones.length;x++){
+               datosCompresiones=Compresiones[x].split(",");
+               MisCompresiones compresionTemporal=new MisCompresiones(datosCompresiones[0],datosCompresiones[1],Double.valueOf(datosCompresiones[2]),Double.valueOf(datosCompresiones[3]),Double.valueOf(datosCompresiones[4]));
+               Data.getInstance().listaCompresiones.add(compresionTemporal);
+           }
+       }
+
     }
 }
