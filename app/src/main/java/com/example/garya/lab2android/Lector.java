@@ -35,7 +35,7 @@ public class Lector {
         String contenido="";
         try{
             File file;
-            file=new File(Environment.getExternalStorageDirectory().toString()+"/CompresionHuffman/");
+            file=new File(Environment.getExternalStorageDirectory().toString()+"/MisCompresiones/MISCOMPRESIONES.txt");
             BufferedReader buffer=new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             contenido=buffer.readLine();
             buffer.close();

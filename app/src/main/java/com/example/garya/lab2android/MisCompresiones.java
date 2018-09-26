@@ -25,7 +25,8 @@ public class MisCompresiones {
                 " Porcentaje Reduccion= " + porcentajeReduccion+"%";
     }
     public String toStringArchivo(){
-        return nombreArchivo+","+ruta+","+razonCompresion+","+factorCompresion+","+porcentajeReduccion+"}";
+
+        return nombreArchivo+","+ruta+","+razonCompresion+","+factorCompresion+","+porcentajeReduccion+"{";
     }
 
     public String getNombreArchivo() {
