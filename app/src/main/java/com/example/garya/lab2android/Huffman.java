@@ -43,9 +43,6 @@ public class Huffman {
             setDirecciones("",tablaArbol.get(0));
             textoBinario = CrearTextoBinario();
             textoAscii = TextoToAscii();
-            if(!GenerarArchivosCompresion()){
-                return false;
-            }
 
             return true;
         }catch (Exception e){
@@ -172,9 +169,16 @@ public class Huffman {
         return textoAscii;
     }
 
-    private boolean GenerarArchivosCompresion(){
-        obtenerNombreArchivo();
-        if(Escritor.Escribir(textoBinario,1,nombreArchivo)){
+    public boolean GenerarArchivoBinario(Uri uri){
+        if(Escritor.Escribir2(uri,application,textoBinario,1)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean GenerarArchivosCompresion(Uri uri){
             String ArchivoHuff = "";
             for (int i = 0; i < tabla.size(); i++) {
                 ArchivoHuff += tabla.get(i).getCaracter() + "¬°" + tabla.get(i).getProbabilidad();
@@ -187,16 +191,12 @@ public class Huffman {
             ArchivoHuff += "~&";
             ArchivoHuff += CerosExtra;
             ArchivoHuff += "~&" + textoAscii;
-            if(Escritor.Escribir(ArchivoHuff,0,nombreArchivo)){
+            if(Escritor.Escribir2(uri,application,ArchivoHuff,0)){
                 return true;
             }
             else{
                 return false;
             }
-        }
-        else{
-            return false;
-        }
     }
 
     public boolean Descomprimir(){
@@ -210,10 +210,6 @@ public class Huffman {
             setDirecciones("", tablaArbol.get(0));
             QuitarCeros(textoBinario);
             CadenaDescompresa = ConvertirBinarioaAscii();
-
-            if(!GenerarArchivosDescompresion()){
-                return false;
-            }
 
             return true;
         }catch(Exception e){
@@ -288,9 +284,8 @@ public class Huffman {
         return cadena;
     }
 
-    private boolean GenerarArchivosDescompresion(){
-        obtenerNombreArchivo();
-        if(Escritor.Escribir(CadenaDescompresa,2,nombreArchivo)){
+    public boolean GenerarArchivosDescompresion(Uri uri){
+        if(Escritor.Escribir2(uri,application,CadenaDescompresa,2)){
             return true;
         }
         else{

@@ -18,8 +18,10 @@ public class LZW {
     String textoDecodificado;
     String[] tablaAscii;
     Uri datosArchivo;
+    Application app2;
 
     LZW (Application app, Uri archivo)throws IOException {
+        app2 = app;
         Cadena = Lector.LeerArchivo(app, archivo);
         textoCodificado = "";
         textoDecodificado = "";
@@ -29,12 +31,6 @@ public class LZW {
         cerosTabla = 0;
     }
 
-    public String obtenerNombreArchivo(){
-        String[] path=datosArchivo.getPath().split("/");
-        String[] nombre=path[path.length-1].split("\\.");
-        return nombre[0];
-    }
-
     public boolean Comprimir(){
         try{
             GenerarTablaInicial(Cadena);
@@ -42,10 +38,6 @@ public class LZW {
             CompletarBinarios();
             GenerarBinarioCompleto();
             BinarioAscii();
-
-            if(!GenerarArchivosCompresion()){
-                return false;
-            }
 
             return true;
         }catch(Exception e){
@@ -167,7 +159,6 @@ public class LZW {
 
         for (int i = 0; i < textoBinario.length(); i++) {
             contador++;
-            //if (contador <= 8) {
                 ascii = ascii + textoBinario.charAt(i);
                 if (contador == 8) {
                     numero = Integer.parseInt(ascii, 2);
@@ -175,11 +166,10 @@ public class LZW {
                     contador = 0;
                     ascii = "";
                 }
-            //}
         }
     }
 
-    private boolean GenerarArchivosCompresion(){
+    public boolean GenerarArchivosCompresion(Uri uri){
         String ArchivoLZW = "";
         for (int i = 0; i < tablaInicial.size(); i++) {
             ArchivoLZW += tablaInicial.get(i);
@@ -190,7 +180,7 @@ public class LZW {
         }
 
         ArchivoLZW += "~&" + cerosExtraTodo + "~&" +  cerosTabla + "~&" + textoCodificado;
-        if(Escritor.Escribir(ArchivoLZW,3,obtenerNombreArchivo())){
+        if(Escritor.Escribir2(uri,app2,ArchivoLZW, 3)){
             return true;
         }
         else{
@@ -208,10 +198,6 @@ public class LZW {
             GenerarTablaNumeros();
             DescompresionLZW();
 
-
-            if(!GenerarArchivosDescompresion()){
-                return false;
-            }
             return true;
         }catch (Exception e){
             return false;
@@ -285,8 +271,8 @@ public class LZW {
         }
     }
 
-    private boolean GenerarArchivosDescompresion(){
-        if(Escritor.Escribir(textoDecodificado,4,obtenerNombreArchivo())){
+    public boolean GenerarArchivosDescompresion(Uri uri){
+        if(Escritor.Escribir2(uri,app2,textoDecodificado,4)){
             return true;
         }
         else{

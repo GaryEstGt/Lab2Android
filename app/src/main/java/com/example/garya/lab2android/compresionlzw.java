@@ -24,7 +24,8 @@ public class compresionlzw extends AppCompatActivity {
     TextView txtArchivo;
     @BindView(R.id.txt_Mostrar)
     TextView txtMostrar;
-    Uri uri;
+    Uri uri,uri2;
+    LZW lzw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +86,10 @@ public class compresionlzw extends AppCompatActivity {
                     if(prueb2.equals(".txt")){
                         try {
                             Toast.makeText(this.getApplicationContext(), "Comprimiendo...", Toast.LENGTH_LONG).show();
-                            LZW lzw = new LZW(this.getApplication(), uri);
+                            lzw = new LZW(this.getApplication(), uri);
                             if(lzw.Comprimir()){
-                                Toast.makeText(this.getApplicationContext(), "Archivo comprimido en " + Environment.getExternalStorageDirectory().toString() + "/CompresionLZW/", Toast.LENGTH_LONG).show();
+                                Toast.makeText(this.getApplicationContext(), "Elija la ruta de compresión", Toast.LENGTH_SHORT).show();
+                                ElegirRutaCompresion();
                             }
                             else{
                                 Toast.makeText(this.getApplicationContext(), "Error al descomprimir el archivo", Toast.LENGTH_LONG).show();
@@ -113,7 +115,8 @@ public class compresionlzw extends AppCompatActivity {
                         try {
                             LZW lzw = new LZW(this.getApplication(), uri);
                             if(lzw.Descomprimir()){
-                                Toast.makeText(this.getApplicationContext(), "Descomprimido en " + Environment.getExternalStorageDirectory().toString() + "/CompresionLZW/", Toast.LENGTH_LONG).show();
+                                Toast.makeText(this.getApplicationContext(), "Elija la ruta de descompresión", Toast.LENGTH_SHORT).show();
+                                ElegrirRutaDescompresion();
                             }
                             else{
                                 Toast.makeText(this.getApplicationContext(), "Error al descomprimir el archivo", Toast.LENGTH_LONG).show();
@@ -129,24 +132,59 @@ public class compresionlzw extends AppCompatActivity {
                 break;
         }
     }
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == RESULT_CANCELED) {
-                //Cancelado por el usuario
-            }
-            if ((resultCode == RESULT_OK) && (requestCode == 0)) {
-                //Procesar el resultado
 
-                uri = data.getData(); //obtener el uri content
-                String[] texto = uri.getPath().split("/");
-                txtArchivo.setText(texto[texto.length - 1]);
-                String contenido = Lector.LeerArchivo(this.getApplication(),uri);
-                txtMostrar.setText(contenido);
-                Toast.makeText(this.getApplicationContext(), "Archivo cargado con éxito", Toast.LENGTH_LONG).show();
-            }
-        } catch (Exception e) {
-            Toast.makeText(this.getApplicationContext(), "Error al cargar el archivo", Toast.LENGTH_LONG).show();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case 0:
+                try{
+                    super.onActivityResult(requestCode, resultCode, data);
+                    if (resultCode == RESULT_CANCELED) {
+                        //Cancelado por el usuario
+                    }if ((resultCode == RESULT_OK) && (requestCode == 0)) {
+                        //Procesar el resultado
+
+                        uri = data.getData(); //obtener el uri content
+                        String[] texto = uri.getPath().split("/");
+                        txtArchivo.setText(texto[texto.length - 1]);
+                        String contenido = Lector.LeerArchivo(this.getApplication(),uri);
+                        txtMostrar.setText(contenido);
+                        Toast.makeText(this.getApplicationContext(), "Archivo cargado con éxito", Toast.LENGTH_LONG).show();
+                    }
+                }catch(Exception e){
+                    Toast.makeText(this.getApplicationContext(), "Error al cargar el archivo", Toast.LENGTH_LONG).show();
+                }
+                break;
+            case 1:
+                uri2 = data.getData();
+                if(lzw.GenerarArchivosCompresion(uri2)){
+                    Toast.makeText(this.getApplicationContext(), "Archivo comprimido en " + uri2.getPath(), Toast.LENGTH_LONG).show();
+                }
+
+                break;
+            case 2:
+                uri2 = data.getData();
+                if(lzw.GenerarArchivosDescompresion(uri2)){
+                    Toast.makeText(this.getApplicationContext(), "Archivo descomprimido en " + uri2.getPath(), Toast.LENGTH_LONG).show();
+                }
+
+                break;
         }
+    }
+
+    public void ElegirRutaCompresion(){
+        Intent intent2 = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent2.addCategory(Intent.CATEGORY_OPENABLE);
+        intent2.setType("*/*");
+        intent2.putExtra(Intent.EXTRA_TITLE, txtArchivo.getText().toString().split("\\.")[0] + ".lzw");
+        startActivityForResult(intent2, 1);
+    }
+
+    public void ElegrirRutaDescompresion(){
+        Intent intent2 = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent2.addCategory(Intent.CATEGORY_OPENABLE);
+        intent2.setType("*/*");
+        intent2.putExtra(Intent.EXTRA_TITLE, txtArchivo.getText().toString().split("\\.")[0] + "Descomprimido.txt");
+        startActivityForResult(intent2, 2);
     }
 }

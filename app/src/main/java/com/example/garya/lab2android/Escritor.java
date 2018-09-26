@@ -1,13 +1,21 @@
 package com.example.garya.lab2android;
 
+import android.app.Application;
+import android.net.Uri;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
 
 public class Escritor {
+    private static Charset UTF8 = Charset.forName("UTF-8");
 
     public static boolean Escribir(String cadena, int ver,String nombre) {
         try {
@@ -72,6 +80,29 @@ public class Escritor {
         }
 
     }
+
+    public static boolean Escribir2(Uri selectedFile, Application app, String cadena, int version){
+        try{
+            ParcelFileDescriptor file = app.getContentResolver().openFileDescriptor(selectedFile, "w");
+            FileOutputStream fileOutputStream = new FileOutputStream(file.getFileDescriptor());
+            Writer writer = new OutputStreamWriter(fileOutputStream, UTF8);
+            writer.write(cadena);
+            writer.flush();
+            writer.close();
+            fileOutputStream.close();
+            file.close();
+            if(version==0 || version==3){
+                String[] datos = selectedFile.getPath().split("/");
+                String nombre = datos[datos.length - 1].split("\\.")[0];
+                File archivo = new File(selectedFile.getPath());
+                setMisCompresiones(nombre,Environment.getExternalStorageDirectory().toString(),Data.getInstance().tamañoOriginal, Double.valueOf(archivo.length()));
+            }
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public static void setMisCompresiones(String nombreArchivo,String ruta,Double tamañoOriginal,Double tamañoComprimido){
         MisCompresiones compresion =new MisCompresiones(nombreArchivo,ruta,0.0,0.0,0.0);
         compresion.setFactorCompresion(tamañoOriginal,tamañoComprimido);
