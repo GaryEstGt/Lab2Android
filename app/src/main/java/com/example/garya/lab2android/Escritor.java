@@ -35,6 +35,10 @@ public class Escritor {
                 raiz += "/CompresionLZW/";
                 nuevo = raiz +nombre+ "DESCOMPRESS.txt";
                 break;
+            case 5:
+                raiz += "/MisCompresiones/";
+                nuevo = raiz+ "MISCOMPRESIONES.txt";
+                break;
                 default:
                     return false;
         }
