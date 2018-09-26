@@ -74,6 +74,15 @@ public class Escritor {
         compresion.setRazonCompresion(tamañoOriginal,tamañoComprimido);
         compresion.setPorcentajeReduccion();
         Data.getInstance().listaCompresiones.add(compresion);
+        Escribir(textoMisCompresiones(),5,"");
+    }
+    public static String textoMisCompresiones(){
+        String texto="";
+        for (MisCompresiones compresion:
+                Data.getInstance().listaCompresiones) {
+            texto+=compresion.toStringArchivo();
+        }
+        return texto;
     }
 
 }
