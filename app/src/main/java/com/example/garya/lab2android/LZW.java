@@ -16,7 +16,7 @@ public class LZW {
     String textoCodificado;
     String textoBinario;
     String textoDecodificado;
-    String[] tablaAscii = new String[3];
+    String[] tablaAscii;
     Uri datosArchivo;
 
     LZW (Application app, Uri archivo)throws IOException {
@@ -278,8 +278,9 @@ public class LZW {
                 numeroBinario = tablaNumeros.get(i);
                 actual = tabla.get(Integer.parseInt(numeroBinario,2));
 
-                textoDecodificado+=actual;
                 tabla.add(anterior + actual.charAt(0));
+                textoDecodificado+=actual;
+
             }
         }
     }

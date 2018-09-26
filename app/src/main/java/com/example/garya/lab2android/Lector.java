@@ -18,12 +18,11 @@ public class Lector {
         InputStream IS = application.getContentResolver().openInputStream(archivo);
         BufferedReader BR = new BufferedReader(new InputStreamReader(IS));
         StringBuilder SB = new StringBuilder();
-        String line = "";
-        while((line = BR.readLine()) != null)
+        int line = 0;
+        while((line = BR.read()) != -1)
         {
-            for (int i = 0; i < line.length(); i++) {
-                SB.append(line.charAt(i));
-            }
+            char val = (char)line;
+            SB.append(val);
         }
 
         IS.close();

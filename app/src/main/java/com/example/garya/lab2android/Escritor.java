@@ -55,7 +55,7 @@ public class Escritor {
             }
 
             PrintWriter print = new PrintWriter(archivo);
-            print.print(cadena);
+            print.write(cadena);
             print.close();
             if(ver==0 || ver==3){
                 setMisCompresiones(nombre,raiz,Data.getInstance().tamañoOriginal, Double.valueOf(archivo.length()));
