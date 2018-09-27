@@ -8,7 +8,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,31 +17,26 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class compresionlzw extends AppCompatActivity {
 
-    @BindView(R.id.textView)
-    TextView textView;
-    @BindView(R.id.btnComprimir)
-    Button btnComprimir;
-    @BindView(R.id.btnDescomprimir)
-    Button btnDescomprimir;
-
-    Uri uri,uri2;
-    Huffman huffman;
-    @BindView(R.id.txtMostrar)
+    @BindView(R.id.txt_archivo)
+    TextView txtArchivo;
+    @BindView(R.id.txt_Mostrar)
     TextView txtMostrar;
+    Uri uri,uri2;
+    LZW lzw;
 
-   @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_compresionlzw);
         ButterKnife.bind(this);
         txtMostrar.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-       getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -50,15 +44,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_Huffman:
-                Toast.makeText(this.getApplicationContext(), "Ya esta en Compresion Huffman", Toast.LENGTH_LONG).show();
+                Intent intentHuffman = new Intent(compresionlzw.this, MainActivity.class);
+                startActivity(intentHuffman);
                 return true;
             case R.id.menu_Compresiones:
-                Intent intentCompresiones = new Intent(MainActivity.this, compresiones.class);
-                startActivity(intentCompresiones);
+                Intent intentLZW = new Intent(compresionlzw.this, compresiones.class);
+                startActivity(intentLZW);
                 return true;
             case R.id.menu_LZW:
-                Intent intentLZW = new Intent(MainActivity.this, compresionlzw.class);
-                startActivity(intentLZW);
+                Toast.makeText(this.getApplicationContext(), "Ya esta en Compresion LZW", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.Salir:
                 finish();
@@ -72,15 +66,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.btnElegir, R.id.btnComprimir, R.id.btnDescomprimir})
+    @OnClick({R.id.btn_Abrir, R.id.btn_Comprimir, R.id.btn_Descomprimir})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btnElegir:
+            case R.id.btn_Abrir:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
                 startActivityForResult(Intent.createChooser(intent, "Choose File"), 0);
                 break;
-            case R.id.btnComprimir:
+            case R.id.btn_Comprimir:
                 if(uri==null){
                     Toast.makeText(this.getApplicationContext(), "Seleccione un archivo para comprimir", Toast.LENGTH_LONG).show();
                 }
@@ -91,18 +85,16 @@ public class MainActivity extends AppCompatActivity {
                     if(prueb2.equals(".txt")){
                         try {
                             Toast.makeText(this.getApplicationContext(), "Comprimiendo...", Toast.LENGTH_LONG).show();
-                            huffman = new Huffman(this.getApplication(), uri);
-                            if(huffman.ComprimirArchivo()){
+                            lzw = new LZW(this.getApplication(), uri);
+                            if(lzw.Comprimir()){
                                 Toast.makeText(this.getApplicationContext(), "Elija la ruta de compresión", Toast.LENGTH_SHORT).show();
                                 ElegirRutaCompresion();
-                                Toast.makeText(this.getApplicationContext(), "Elija la ruta del archivo binario", Toast.LENGTH_SHORT).show();
-                                ElegirRutaBinario();
                             }
                             else{
-                                Toast.makeText(this.getApplicationContext(), "Error al comprimir el archivo", Toast.LENGTH_LONG).show();
+                                Toast.makeText(this.getApplicationContext(), "Error al descomprimir el archivo", Toast.LENGTH_LONG).show();
                             }
                         } catch (IOException e) {
-                            Toast.makeText(this.getApplicationContext(), "Error al comprimir el archivo", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this.getApplicationContext(), "Error al descomprimir el archivo", Toast.LENGTH_LONG).show();
                         }
                     }
                     else{
@@ -110,18 +102,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case R.id.btnDescomprimir:
+            case R.id.btn_Descomprimir:
                 if(uri==null){
                     Toast.makeText(this.getApplicationContext(), "Seleccione un archivo para descomprimir", Toast.LENGTH_LONG).show();
                 }else{
                     String[] prueb=uri.getPath().split("/");
                     String prueb2;
                     prueb2=prueb[prueb.length-1].substring(prueb[prueb.length-1].length()-4,prueb[prueb.length-1].length());
-                    if(prueb2.equals(".huf")){
+                    if(prueb2.equals(".lzw")){
                         Toast.makeText(this.getApplicationContext(), "El Archivo esta siendo descomprimido", Toast.LENGTH_LONG).show();
                         try {
-                            huffman = new Huffman(this.getApplication(), uri);
-                            if(huffman.Descomprimir()){
+                            lzw = new LZW(this.getApplication(), uri);
+                            if(lzw.Descomprimir()){
                                 Toast.makeText(this.getApplicationContext(), "Elija la ruta de descompresión", Toast.LENGTH_SHORT).show();
                                 ElegrirRutaDescompresion();
                             }
@@ -133,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     else{
-                        Toast.makeText(this.getApplicationContext(), "Seleccion un archivo .huf para descomprimir", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this.getApplicationContext(), "Seleccion un archivo .lzw para descomprimir", Toast.LENGTH_LONG).show();
                     }
                 }
                 break;
@@ -151,9 +143,9 @@ public class MainActivity extends AppCompatActivity {
                     }if ((resultCode == RESULT_OK) && (requestCode == 0)) {
                         //Procesar el resultado
 
-                        uri = data.getData();//obtener el uri content
+                        uri = data.getData(); //obtener el uri content
                         String[] texto = uri.getPath().split("/");
-                        textView.setText(texto[texto.length - 1]);
+                        txtArchivo.setText(texto[texto.length - 1]);
                         String contenido = Lector.LeerArchivo(this.getApplication(),uri);
                         txtMostrar.setText(contenido);
                         Toast.makeText(this.getApplicationContext(), "Archivo cargado con éxito", Toast.LENGTH_LONG).show();
@@ -164,17 +156,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 1:
                 uri2 = data.getData();
-                if(huffman.GenerarArchivosCompresion(uri2)){
+                if(lzw.GenerarArchivosCompresion(uri2)){
                     Toast.makeText(this.getApplicationContext(), "Archivo comprimido en " + uri2.getPath(), Toast.LENGTH_LONG).show();
                 }
+
                 break;
             case 2:
                 uri2 = data.getData();
-                huffman.GenerarArchivoBinario(uri2);
-                break;
-            case 3:
-                uri2 = data.getData();
-                if(huffman.GenerarArchivosDescompresion(uri2)){
+                if(lzw.GenerarArchivosDescompresion(uri2)){
                     Toast.makeText(this.getApplicationContext(), "Archivo descomprimido en " + uri2.getPath(), Toast.LENGTH_LONG).show();
                 }
 
@@ -186,23 +175,15 @@ public class MainActivity extends AppCompatActivity {
         Intent intent2 = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent2.addCategory(Intent.CATEGORY_OPENABLE);
         intent2.setType("*/*");
-        intent2.putExtra(Intent.EXTRA_TITLE, textView.getText().toString().split("\\.")[0] + ".huf");
+        intent2.putExtra(Intent.EXTRA_TITLE, txtArchivo.getText().toString().split("\\.")[0] + ".lzw");
         startActivityForResult(intent2, 1);
-    }
-
-    public void ElegirRutaBinario(){
-        Intent intent2 = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent2.addCategory(Intent.CATEGORY_OPENABLE);
-        intent2.setType("*/*");
-        intent2.putExtra(Intent.EXTRA_TITLE, textView.getText().toString().split("\\.")[0] + ".BIN");
-        startActivityForResult(intent2, 2);
     }
 
     public void ElegrirRutaDescompresion(){
         Intent intent2 = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent2.addCategory(Intent.CATEGORY_OPENABLE);
         intent2.setType("*/*");
-        intent2.putExtra(Intent.EXTRA_TITLE, textView.getText().toString().split("\\.")[0] + "Descomprimido.txt");
-        startActivityForResult(intent2, 3);
+        intent2.putExtra(Intent.EXTRA_TITLE, txtArchivo.getText().toString().split("\\.")[0] + "Descomprimido.txt");
+        startActivityForResult(intent2, 2);
     }
 }
