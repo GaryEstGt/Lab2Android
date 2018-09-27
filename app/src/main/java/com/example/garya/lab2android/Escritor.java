@@ -71,9 +71,6 @@ public class Escritor {
             PrintWriter print = new PrintWriter(archivo);
             print.print(cadena);
             print.close();
-            if(ver==0 || ver==3){
-                setMisCompresiones(nombre,raiz,Data.getInstance().tamañoOriginal, Double.valueOf(archivo.length()));
-            }
             return true;
         } catch (FileNotFoundException e) {
             return false;

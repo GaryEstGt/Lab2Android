@@ -1,8 +1,10 @@
 package com.example.garya.lab2android;
 
 import android.app.Application;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.OpenableColumns;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,9 +16,12 @@ import java.io.InputStreamReader;
 public class Lector {
 
     public static String LeerArchivo(Application application, Uri archivo) throws IOException {
-        File datoArchivo=new File(archivo.getPath());
-        long valor=datoArchivo.length();
-        Data.getInstance().tamañoOriginal= Double.valueOf(valor);
+        Long tamañoOri;
+        Cursor returnCursor1=application.getContentResolver().query(archivo,null,null,null,null);
+        int sizeIndex=returnCursor1.getColumnIndex(OpenableColumns.SIZE);
+        returnCursor1.moveToFirst();
+        tamañoOri=returnCursor1.getLong(sizeIndex);
+        Data.getInstance().tamañoOriginal= Double.valueOf(tamañoOri);
         InputStream IS = application.getContentResolver().openInputStream(archivo);
         BufferedReader BR = new BufferedReader(new InputStreamReader(IS));
         StringBuilder SB = new StringBuilder();
