@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="archivo!"
+        android:text="Seleccionar archivo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.678"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -19,7 +20,7 @@
 
     <Button
         android:id="@+id/btnElegir"
-        android:layout_width="88dp"
+        android:layout_width="130dp"
         android:layout_height="48dp"
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
@@ -27,7 +28,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Open"
+        android:text="Abrir archivo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintHorizontal_bias="0.26"

@@ -8,13 +8,13 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="110dp"
+        android:layout_width="97dp"
         android:layout_height="45dp"
         android:layout_marginBottom="460dp"
         android:layout_marginEnd="134dp"
-        android:layout_marginLeft="135dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="134dp"
-        android:layout_marginStart="135dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="33dp"
         android:text="Mis Compresiones"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -41,7 +41,7 @@
 
     <Button
         android:id="@+id/btn_Cargar"
-        android:layout_width="wrap_content"
+        android:layout_width="81dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginEnd="37dp"
@@ -52,6 +52,27 @@
         android:text="Cargar"
         app:layout_constraintBottom_toTopOf="@+id/list"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="155dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:singleLine="false"
+        android:text='Seleccione el archivo en la carpeta "Mis Compresiones"'
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>

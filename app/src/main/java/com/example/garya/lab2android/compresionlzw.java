@@ -113,7 +113,7 @@ public class compresionlzw extends AppCompatActivity {
                     if(prueb2.equals(".lzw")){
                         Toast.makeText(this.getApplicationContext(), "El Archivo esta siendo descomprimido", Toast.LENGTH_LONG).show();
                         try {
-                            LZW lzw = new LZW(this.getApplication(), uri);
+                            lzw = new LZW(this.getApplication(), uri);
                             if(lzw.Descomprimir()){
                                 Toast.makeText(this.getApplicationContext(), "Elija la ruta de descompresión", Toast.LENGTH_SHORT).show();
                                 ElegrirRutaDescompresion();
