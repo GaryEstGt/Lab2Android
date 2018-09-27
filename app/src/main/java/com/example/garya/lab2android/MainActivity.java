@@ -3,7 +3,6 @@ package com.example.garya.lab2android;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
@@ -152,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     }if ((resultCode == RESULT_OK) && (requestCode == 0)) {
                         //Procesar el resultado
 
-                        uri = data.getData(); //obtener el uri content
+                        uri = data.getData();//obtener el uri content
                         String[] texto = uri.getPath().split("/");
                         textView.setText(texto[texto.length - 1]);
                         String contenido = Lector.LeerArchivo(this.getApplication(),uri);

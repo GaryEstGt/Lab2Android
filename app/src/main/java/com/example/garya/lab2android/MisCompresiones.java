@@ -66,7 +66,7 @@ public class MisCompresiones {
     }
 
     public void setPorcentajeReduccion() {
-        this.porcentajeReduccion = razonCompresion*100;
+        this.porcentajeReduccion = (1-razonCompresion)*100;
     }
 
 

@@ -1,9 +1,11 @@
 package com.example.garya.lab2android;
 
 import android.app.Application;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.provider.OpenableColumns;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -94,8 +96,12 @@ public class Escritor {
             if(version==0 || version==3){
                 String[] datos = selectedFile.getPath().split("/");
                 String nombre = datos[datos.length - 1].split("\\.")[0];
-                File archivo = new File(selectedFile.getPath());
-                setMisCompresiones(nombre,Environment.getExternalStorageDirectory().toString(),Data.getInstance().tamañoOriginal, Double.valueOf(archivo.length()));
+                Long tamañoComprimido;
+                Cursor returnCursor1=app.getContentResolver().query(selectedFile,null,null,null,null);
+                int sizeIndex=returnCursor1.getColumnIndex(OpenableColumns.SIZE);
+                returnCursor1.moveToFirst();
+                tamañoComprimido=returnCursor1.getLong(sizeIndex);
+                setMisCompresiones(nombre,selectedFile.getEncodedPath(),Data.getInstance().tamañoOriginal, Double.valueOf(tamañoComprimido));
             }
             return true;
         }catch(Exception e){
